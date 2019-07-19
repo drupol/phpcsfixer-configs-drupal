@@ -1,0 +1,27 @@
+parameters:
+    git_dir: .
+    bin_dir: vendor/bin
+    tasks:
+        phpcsfixer2:
+            config: ./resources/php56.config.php
+            triggered_by: ['php']
+            config_contains_finder: true
+            verbose: true
+            allow_risky: true
+            using_cache: false
+            metadata:
+                priority: 4300
+        codeception: ~
+        phpspec:
+            verbose: true
+            metadata:
+                priority: 3000
+        infection:
+            threads: 10
+            test_framework: phpspec
+            configuration: infection.json.dist
+            min_msi: 0
+            min_covered_msi: 0
+            metadata:
+                priority: 2000
+

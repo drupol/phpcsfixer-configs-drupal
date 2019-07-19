@@ -1,0 +1,50 @@
+{
+    "name": "drupol/phpcsfixer-configs-drupal",
+    "description": "Base PHP CS Fixer configurations for Drupal 6, 7 and 8.",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Pol Dellaiera",
+            "email": "pol.dellaiera@protonmail.com"
+        }
+    ],
+    "require": {
+        "php": ">= 5.6",
+        "drupol/phpcsfixer-configs-php": "^1"
+    },
+    "autoload": {
+        "psr-4": {
+            "drupol\\PhpCsFixerConfigsDrupal\\": "./src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "drupol\\PhpCsFixerConfigsDrupal\\Tests\\": "./tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "7.1.30"
+        }
+    },
+    "require-dev": {
+        "codeception/codeception": "^3.0",
+        "drupol/phpspec-annotation": "^1",
+        "drupol/phpspec-code-coverage": "^4 || ^5",
+        "infection/infection": "^0.13",
+        "phpro/grumphp": "^0.14.3 || ^0.15",
+        "phpspec/phpspec": "^4 || ^5",
+        "phptaskman/changelog": "^1.0",
+        "scrutinizer/ocular": "^1"
+    },
+    "scripts": {
+        "apigen": "./vendor/bin/apigen generate src --destination build/docs",
+        "bench": "./vendor/bin/phpbench run --report=aggregate --store --precision=3",
+        "codecept": "./vendor/bin/codecept run",
+        "grumphp": "./vendor/bin/grumphp run",
+        "infection": "./vendor/bin/infection run -j 10",
+        "scrutinizer": "./vendor/bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml"
+    }
+}

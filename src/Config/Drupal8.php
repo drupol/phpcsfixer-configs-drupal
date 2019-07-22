@@ -17,7 +17,10 @@ final class Drupal8 extends YamlConfig
         parent::__construct('drupal8');
 
         $parent = (new Drupal7())
-            ->withRulesFromYaml('/../../config/drupal8/phpcsfixer.rules.yml');
+            ->withRulesFromYaml(__DIR__ . '/../../config/drupal8/phpcsfixer.rules.yml');
+
+        $this
+            ->setRules($parent->getRules());
 
         $this
             ->setIndent($parent->getIndent());

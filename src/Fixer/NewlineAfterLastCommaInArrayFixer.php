@@ -40,7 +40,7 @@ final class NewlineAfterLastCommaInArrayFixer implements DefinedFixerInterface, 
     {
         $this->setWhitespacesConfig(
             new WhitespacesFixerConfig($indent, $lineEnding)
-    );
+        );
     }
 
     /**
@@ -65,7 +65,7 @@ final class NewlineAfterLastCommaInArrayFixer implements DefinedFixerInterface, 
         return new FixerDefinition(
             'In array declaration, if the array is multiline, the closing tag must be on a newline.',
             [new CodeSample("<?php\n\$sample = array(1,'a',\$b,);\n")]
-    );
+        );
     }
 
     /**

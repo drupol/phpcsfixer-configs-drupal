@@ -25,8 +25,8 @@ final class UppercaseConstantsFixer implements DefinedFixerInterface
             }
 
             if ($this->isNeighbourAccepted($tokens, $tokens->getPrevMeaningfulToken($index)) &&
-        $this->isNeighbourAccepted($tokens, $tokens->getNextMeaningfulToken($index))
-      ) {
+            $this->isNeighbourAccepted($tokens, $tokens->getNextMeaningfulToken($index))
+            ) {
                 $tokens[$index] = new Token([$token->getId(), mb_strtoupper($token->getContent())]);
             }
         }
@@ -40,7 +40,7 @@ final class UppercaseConstantsFixer implements DefinedFixerInterface
         return new FixerDefinition(
             'The PHP constants `true`, `false`, and `null` MUST be in upper case.',
             [new CodeSample("<?php\n\$a = FALSE;\n\$b = True;\n\$c = nuLL;\n")]
-    );
+        );
     }
 
     /**

@@ -38,7 +38,7 @@ final class BlankLineBeforeEndOfClass implements DefinedFixerInterface, Whitespa
     {
         $this->setWhitespacesConfig(
             new WhitespacesFixerConfig($indent, $lineEnding)
-    );
+        );
     }
 
     /**
@@ -59,7 +59,7 @@ final class BlankLineBeforeEndOfClass implements DefinedFixerInterface, Whitespa
             $endCurlyBraceIndex = $tokens->findBlockEnd(
                 Tokens::BLOCK_TYPE_CURLY_BRACE,
                 $indexOpenCurlyBrace
-      );
+            );
 
             $this->tokens[$endCurlyBraceIndex] = new Token([
                 \T_WHITESPACE,
@@ -80,7 +80,7 @@ final class BlankLineBeforeEndOfClass implements DefinedFixerInterface, Whitespa
                     ''
                 ),
             ]
-    );
+        );
     }
 
     /**

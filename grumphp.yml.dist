@@ -1,16 +1,22 @@
+imports:
+  - { resource: vendor/drupol/php-conventions/config/php7/grumphp.yml }
+
 parameters:
     git_dir: .
     bin_dir: vendor/bin
-    tasks:
-        phpcsfixer2:
-            config: ./resources/php56.config.php
-            triggered_by: ['php']
-            config_contains_finder: true
-            verbose: true
-            allow_risky: true
-            using_cache: false
-            metadata:
-                priority: 4300
+
+    tasks.phpcsfixer2.config: ./resources/php56.config.php
+
+    tasks.phpcs.whitelist_patterns:
+        - src/
+    tasks.phpcs.ignore_patterns:
+        - tests/
+        - spec/
+
+    skip_tasks:
+        - phpstan
+
+    extra_tasks:
         codeception: ~
         phpspec:
             verbose: true

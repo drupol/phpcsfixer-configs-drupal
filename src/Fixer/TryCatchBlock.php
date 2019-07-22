@@ -32,7 +32,7 @@ final class TryCatchBlock implements DefinedFixerInterface, WhitespacesAwareFixe
     {
         $this->setWhitespacesConfig(
             new WhitespacesFixerConfig($indent, $lineEnding)
-    );
+        );
     }
 
     /**
@@ -49,19 +49,19 @@ final class TryCatchBlock implements DefinedFixerInterface, WhitespacesAwareFixe
                 [
                     \T_WHITESPACE,
                     $this->whitespacesConfig->getLineEnding(), ]
-      );
+            );
 
             $padding = mb_substr(
                 $this->getExpectedIndentAt($tokens, $index),
                 0,
                 -mb_strlen($this->whitespacesConfig->getIndent())
-      );
+            );
 
             $tokens[$index] = new Token(
                 [
                     \T_WHITESPACE,
                     $padding . $tokens[$index]->getContent(), ]
-      );
+            );
         }
     }
 
@@ -77,7 +77,7 @@ final class TryCatchBlock implements DefinedFixerInterface, WhitespacesAwareFixe
                     ''
                 ),
             ]
-    );
+        );
     }
 
     /**
@@ -148,8 +148,8 @@ final class TryCatchBlock implements DefinedFixerInterface, WhitespacesAwareFixe
         }
 
         return
-      !$tokens[$end]->equals(')')
-      || $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $end) >= $start;
+        !$tokens[$end]->equals(')')
+        || $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $end) >= $start;
     }
 
     /**

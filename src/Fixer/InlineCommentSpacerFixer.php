@@ -44,7 +44,7 @@ final class InlineCommentSpacerFixer implements DefinedFixerInterface
             [
                 new CodeSample('<?php //Whut' . \PHP_EOL),
             ]
-    );
+        );
     }
 
     /**

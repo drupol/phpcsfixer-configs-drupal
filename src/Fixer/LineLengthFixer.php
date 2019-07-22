@@ -28,24 +28,24 @@ final class LineLengthFixer implements ConfigurableFixerInterface
 
         $indentDetector = new \Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector(
             $whitespacesFixerConfig
-    );
+        );
 
         $blockFinder = new \Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder();
 
         $tokenSkipper = new \Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper(
             $blockFinder
-    );
+        );
 
         $lineLengthTransformer = new \Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer(
             $indentDetector,
             $tokenSkipper,
             $whitespacesFixerConfig
-    );
+        );
 
         $this->lineLengthFixer = new \Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer(
             $lineLengthTransformer,
             $blockFinder
-    );
+        );
     }
 
     /**

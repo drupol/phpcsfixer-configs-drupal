@@ -58,6 +58,6 @@ final class Drupal extends YamlConfig
                     ->name('*.php')
                     ->name('*.theme')
                     ->in($_SERVER['PWD'])
-      );
+            );
     }
 }

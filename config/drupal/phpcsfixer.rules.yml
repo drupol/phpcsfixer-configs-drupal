@@ -29,6 +29,7 @@ parameters:
       allow_single_line_closure: true
       position_after_functions_and_oop_constructs: same
     class_attributes_separation: false
+    comment_to_phpdoc: false
     compact_nullable_typehint: true
     Drupal/blank_line_before_end_of_class: true
     Drupal/control_structure_braces_else: true

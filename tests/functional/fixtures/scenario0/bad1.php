@@ -38,7 +38,7 @@
   $concat = "string".'string'."string";
 
 
-  if (in_array($arg, $options)) {}
+  if (in_array($arg, $options, true)) {}
 
 
   try

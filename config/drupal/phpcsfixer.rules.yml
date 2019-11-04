@@ -33,6 +33,8 @@ parameters:
         class_attributes_separation: false
         comment_to_phpdoc: false
         compact_nullable_typehint: true
+        constant_case:
+            case: upper
         declare_equal_normalize:
             space: single
         Drupal/blank_line_before_end_of_class: true
@@ -46,7 +48,6 @@ parameters:
         # WIP
         # Drupal/new_line_on_multiline_array: true
         Drupal/try_catch_block: true
-        Drupal/uppercase_constants: true
         encoding: true
         full_opening_tag: true
         function_declaration:

@@ -39,7 +39,6 @@ final class Drupal extends YamlConfig
                 new BlankLineBeforeEndOfClass($this->getIndent(), $this->getLineEnding()),
                 new ControlStructureCurlyBracketsElseFixer($this->getIndent(), $this->getLineEnding()),
                 new InlineCommentSpacerFixer(),
-                new UppercaseConstantsFixer(),
                 new TryCatchBlock($this->getIndent(), $this->getLineEnding()),
                 // Work in progress
                 //new NewlineAfterLastCommaInArrayFixer($this->getIndent(), $this->getLineEnding()),

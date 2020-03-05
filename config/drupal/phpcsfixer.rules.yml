@@ -92,3 +92,7 @@ parameters:
             identical: false
             less_and_greater: false
             always_move_variable: false
+        global_namespace_import:  
+            import_classes: true
+            import_constants: false
+            import_functions: false

@@ -52,6 +52,10 @@ parameters:
         full_opening_tag: true
         function_declaration:
             closure_function_spacing: one
+        global_namespace_import:
+            import_classes: true
+            import_constants: false
+            import_functions: false
         # Disable this rules - it conflicts with 'braces'
         # indentation_type: true
         indentation_type: false
@@ -92,7 +96,3 @@ parameters:
             identical: false
             less_and_greater: false
             always_move_variable: false
-        global_namespace_import:  
-            import_classes: true
-            import_constants: false
-            import_functions: false

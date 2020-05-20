@@ -54,7 +54,7 @@ parameters:
             closure_function_spacing: one
         global_namespace_import:
             # Disabled because of conflicts with drupal/coder.
-	    # Error: Data types in @param tags need to be fully namespaced (Drupal.Commenting.DataTypeNamespace.DataTypeNamespace)
+            # Error: Data types in @param tags need to be fully namespaced (Drupal.Commenting.DataTypeNamespace.DataTypeNamespace)
             import_classes: false
             import_constants: false
             import_functions: false

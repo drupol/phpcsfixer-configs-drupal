@@ -1,21 +1,38 @@
 <?php
 
+/**
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace drupol\PhpCsFixerConfigsDrupal\Fixer;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
+use SplFileInfo;
+
+use const T_ELSE;
+use const T_ELSEIF;
+use const T_IF;
+use const T_INLINE_HTML;
+use const T_OBJECT_OPERATOR;
+use const T_OPEN_TAG;
+use const T_WHITESPACE;
 
 /**
  * Class ControlStructureCurlyBracketsElseFixer.
  */
-final class ControlStructureCurlyBracketsElseFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class ControlStructureCurlyBracketsElseFixer implements FixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var \PhpCsFixer\WhitespacesFixerConfig
@@ -35,13 +52,10 @@ final class ControlStructureCurlyBracketsElseFixer implements DefinedFixerInterf
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(\SplFileInfo $file, Tokens $tokens)
+    public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
-            if (!$token->isGivenKind([\T_ELSE, \T_ELSEIF])) {
+            if (!$token->isGivenKind([T_ELSE, T_ELSEIF])) {
                 continue;
             }
 
@@ -49,7 +63,7 @@ final class ControlStructureCurlyBracketsElseFixer implements DefinedFixerInterf
             // if ($something):
             $next = $tokens->getNextNonWhitespace($index);
 
-            if ($token->isGivenKind([\T_ELSE])) {
+            if ($token->isGivenKind([T_ELSE])) {
                 if (':' === $tokens[$next]->getContent()) {
                     continue;
                 }
@@ -57,7 +71,7 @@ final class ControlStructureCurlyBracketsElseFixer implements DefinedFixerInterf
 
             // Ignore old style constructions.
             // elseif ($something):
-            if ($token->isGivenKind([\T_ELSEIF])) {
+            if ($token->isGivenKind([T_ELSEIF])) {
                 if ('(' === $tokens[$next]->getContent()) {
                     $endParenthesis = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $next);
 
@@ -71,7 +85,7 @@ final class ControlStructureCurlyBracketsElseFixer implements DefinedFixerInterf
 
             $tokens[$index - 1] = new Token(
                 [
-                    \T_WHITESPACE,
+                    T_WHITESPACE,
                     $this->whitespacesConfig->getLineEnding(), ]
             );
 
@@ -83,16 +97,13 @@ final class ControlStructureCurlyBracketsElseFixer implements DefinedFixerInterf
 
             $tokens[$index] = new Token(
                 [
-                    \T_WHITESPACE,
+                    T_WHITESPACE,
                     $padding . $tokens[$index]->getContent(), ]
             );
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDefinition()
+    public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
             'Fix if/else control structure.',
@@ -104,50 +115,32 @@ final class ControlStructureCurlyBracketsElseFixer implements DefinedFixerInterf
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'Drupal/control_structure_braces_else';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
+    public function getPriority(): int
     {
         return -1000;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isCandidate(Tokens $tokens)
+    public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound([\T_IF, \T_ELSE, \T_ELSEIF]);
+        return $tokens->isAnyTokenKindsFound([T_IF, T_ELSE, T_ELSEIF]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isRisky()
+    public function isRisky(): bool
     {
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setWhitespacesConfig(WhitespacesFixerConfig $config)
+    public function setWhitespacesConfig(WhitespacesFixerConfig $config): void
     {
         $this->whitespacesConfig = $config;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(\SplFileInfo $file)
+    public function supports(SplFileInfo $file): bool
     {
         return true;
     }
@@ -155,7 +148,6 @@ final class ControlStructureCurlyBracketsElseFixer implements DefinedFixerInterf
     /**
      * Mostly taken from MethodChainingIndentationFixer.
      *
-     * @param Tokens $tokens
      * @param int    $start  index of first meaningful token on previous line
      * @param int    $end    index of last token on previous line
      *
@@ -163,7 +155,7 @@ final class ControlStructureCurlyBracketsElseFixer implements DefinedFixerInterf
      */
     private function currentLineRequiresExtraIndentLevel(Tokens $tokens, $start, $end)
     {
-        if ($tokens[$start + 1]->isGivenKind(\T_OBJECT_OPERATOR)) {
+        if ($tokens[$start + 1]->isGivenKind(T_OBJECT_OPERATOR)) {
             return false;
         }
 
@@ -179,7 +171,6 @@ final class ControlStructureCurlyBracketsElseFixer implements DefinedFixerInterf
     /**
      * Mostly taken from MethodChainingIndentationFixer.
      *
-     * @param Tokens $tokens
      * @param int    $index  index of the first token on the line to indent
      *
      * @return string
@@ -213,10 +204,9 @@ final class ControlStructureCurlyBracketsElseFixer implements DefinedFixerInterf
     /**
      * Mostly taken from MethodChainingIndentationFixer.
      *
-     * @param Tokens $tokens
      * @param int    $index  index of the indentation token
      *
-     * @return null|string
+     * @return string|null
      */
     private function getIndentAt(Tokens $tokens, $index)
     {
@@ -233,13 +223,13 @@ final class ControlStructureCurlyBracketsElseFixer implements DefinedFixerInterf
     private function getIndentContentAt(Tokens $tokens, $index)
     {
         for ($i = $index; 0 <= $i; --$i) {
-            if (!$tokens[$index]->isGivenKind([\T_WHITESPACE, \T_INLINE_HTML])) {
+            if (!$tokens[$index]->isGivenKind([T_WHITESPACE, T_INLINE_HTML])) {
                 continue;
             }
 
             $content = $tokens[$index]->getContent();
 
-            if ($tokens[$index]->isWhitespace() && $tokens[$index - 1]->isGivenKind(\T_OPEN_TAG)) {
+            if ($tokens[$index]->isWhitespace() && $tokens[$index - 1]->isGivenKind(T_OPEN_TAG)) {
                 $content = $tokens[$index - 1]->getContent() . $content;
             }
 

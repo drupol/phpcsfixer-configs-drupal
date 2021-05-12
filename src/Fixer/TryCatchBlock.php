@@ -1,21 +1,37 @@
 <?php
 
+/**
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace drupol\PhpCsFixerConfigsDrupal\Fixer;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
+use SplFileInfo;
+
+use const T_CATCH;
+use const T_INLINE_HTML;
+use const T_OBJECT_OPERATOR;
+use const T_OPEN_TAG;
+use const T_TRY;
+use const T_WHITESPACE;
 
 /**
  * Class ControlStructureCurlyBracketsElseFixer.
  */
-final class TryCatchBlock implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class TryCatchBlock implements FixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var \PhpCsFixer\WhitespacesFixerConfig
@@ -35,19 +51,16 @@ final class TryCatchBlock implements DefinedFixerInterface, WhitespacesAwareFixe
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(\SplFileInfo $file, Tokens $tokens)
+    public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
-            if (!$token->isGivenKind([\T_CATCH])) {
+            if (!$token->isGivenKind([T_CATCH])) {
                 continue;
             }
 
             $tokens[$index - 1] = new Token(
                 [
-                    \T_WHITESPACE,
+                    T_WHITESPACE,
                     $this->whitespacesConfig->getLineEnding(), ]
             );
 
@@ -59,16 +72,13 @@ final class TryCatchBlock implements DefinedFixerInterface, WhitespacesAwareFixe
 
             $tokens[$index] = new Token(
                 [
-                    \T_WHITESPACE,
+                    T_WHITESPACE,
                     $padding . $tokens[$index]->getContent(), ]
             );
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDefinition()
+    public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
             'Fix try/catch block structure.',
@@ -80,50 +90,32 @@ final class TryCatchBlock implements DefinedFixerInterface, WhitespacesAwareFixe
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'Drupal/try_catch_block';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
+    public function getPriority(): int
     {
         return -1000;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isCandidate(Tokens $tokens)
+    public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound([\T_TRY]);
+        return $tokens->isAnyTokenKindsFound([T_TRY]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isRisky()
+    public function isRisky(): bool
     {
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setWhitespacesConfig(WhitespacesFixerConfig $config)
+    public function setWhitespacesConfig(WhitespacesFixerConfig $config): void
     {
         $this->whitespacesConfig = $config;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(\SplFileInfo $file)
+    public function supports(SplFileInfo $file): bool
     {
         return true;
     }
@@ -131,7 +123,6 @@ final class TryCatchBlock implements DefinedFixerInterface, WhitespacesAwareFixe
     /**
      * Mostly taken from MethodChainingIndentationFixer.
      *
-     * @param Tokens $tokens
      * @param int    $start  index of first meaningful token on previous line
      * @param int    $end    index of last token on previous line
      *
@@ -139,7 +130,7 @@ final class TryCatchBlock implements DefinedFixerInterface, WhitespacesAwareFixe
      */
     private function currentLineRequiresExtraIndentLevel(Tokens $tokens, $start, $end)
     {
-        if ($tokens[$start + 1]->isGivenKind(\T_OBJECT_OPERATOR)) {
+        if ($tokens[$start + 1]->isGivenKind(T_OBJECT_OPERATOR)) {
             return false;
         }
 
@@ -155,7 +146,6 @@ final class TryCatchBlock implements DefinedFixerInterface, WhitespacesAwareFixe
     /**
      * Mostly taken from MethodChainingIndentationFixer.
      *
-     * @param Tokens $tokens
      * @param int    $index  index of the first token on the line to indent
      *
      * @return string
@@ -189,10 +179,9 @@ final class TryCatchBlock implements DefinedFixerInterface, WhitespacesAwareFixe
     /**
      * Mostly taken from MethodChainingIndentationFixer.
      *
-     * @param Tokens $tokens
      * @param int    $index  index of the indentation token
      *
-     * @return null|string
+     * @return string|null
      */
     private function getIndentAt(Tokens $tokens, $index)
     {
@@ -209,13 +198,13 @@ final class TryCatchBlock implements DefinedFixerInterface, WhitespacesAwareFixe
     private function getIndentContentAt(Tokens $tokens, $index)
     {
         for ($i = $index; 0 <= $i; --$i) {
-            if (!$tokens[$index]->isGivenKind([\T_WHITESPACE, \T_INLINE_HTML])) {
+            if (!$tokens[$index]->isGivenKind([T_WHITESPACE, T_INLINE_HTML])) {
                 continue;
             }
 
             $content = $tokens[$index]->getContent();
 
-            if ($tokens[$index]->isWhitespace() && $tokens[$index - 1]->isGivenKind(\T_OPEN_TAG)) {
+            if ($tokens[$index]->isWhitespace() && $tokens[$index - 1]->isGivenKind(T_OPEN_TAG)) {
                 $content = $tokens[$index - 1]->getContent() . $content;
             }
 

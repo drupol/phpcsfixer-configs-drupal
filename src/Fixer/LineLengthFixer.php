@@ -1,8 +1,17 @@
 <?php
 
+/**
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace drupol\PhpCsFixerConfigsDrupal\Fixer;
 
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
@@ -48,66 +57,46 @@ final class LineLengthFixer implements ConfigurableFixerInterface
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function configure(array $configuration = null)
+    public function configure(?array $configuration = null): void
     {
-        return $this->lineLengthFixer->configure((array) $configuration);
+        $this->lineLengthFixer->configure((array) $configuration);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(SplFileInfo $file, Tokens $tokens)
+    public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        return $this->lineLengthFixer->fix($file, $tokens);
+        $this->lineLengthFixer->fix($file, $tokens);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDefinition()
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+    }
+
+    public function getDefinition(): FixerDefinitionInterface
     {
         return $this->lineLengthFixer->getDefinition();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'Drupal/line_length';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
+    public function getPriority(): int
     {
         return $this->lineLengthFixer->getPriority();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isCandidate(Tokens $tokens)
+    public function isCandidate(Tokens $tokens): bool
     {
         return $this->lineLengthFixer->isCandidate($tokens);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isRisky()
+    public function isRisky(): bool
     {
         return $this->lineLengthFixer->isRisky();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(SplFileInfo $file)
+    public function supports(SplFileInfo $file): bool
     {
         return $this->lineLengthFixer->supports($file);
     }

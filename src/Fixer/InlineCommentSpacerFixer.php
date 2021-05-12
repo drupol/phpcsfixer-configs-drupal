@@ -1,22 +1,31 @@
 <?php
 
+/**
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace drupol\PhpCsFixerConfigsDrupal\Fixer;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use SplFileInfo;
+
+use const PHP_EOL;
+use const T_COMMENT;
 
 /**
  * Class InlineCommentSpacerFixer.
  */
-final class InlineCommentSpacerFixer implements DefinedFixerInterface
+final class InlineCommentSpacerFixer implements FixerInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(\SplFileInfo $file, Tokens $tokens)
+    public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
             $content = $token->getContent();
@@ -34,55 +43,37 @@ final class InlineCommentSpacerFixer implements DefinedFixerInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDefinition()
+    public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
             'Puts a space after every inline comment start.',
             [
-                new CodeSample('<?php //Whut' . \PHP_EOL),
+                new CodeSample('<?php //Whut' . PHP_EOL),
             ]
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'Drupal/inline_comment_spacer';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
+    public function getPriority(): int
     {
         return 30;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isCandidate(Tokens $tokens)
+    public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isTokenKindFound(\T_COMMENT);
+        return $tokens->isTokenKindFound(T_COMMENT);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isRisky()
+    public function isRisky(): bool
     {
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(\SplFileInfo $file)
+    public function supports(SplFileInfo $file): bool
     {
         return true;
     }

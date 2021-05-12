@@ -1,11 +1,8 @@
 imports:
-  - { resource: vendor/drupol/php-conventions/config/php7/grumphp.yml }
+  - { resource: vendor/drupol/php-conventions/config/php73/grumphp.yml }
 
 parameters:
-    git_dir: .
-    bin_dir: vendor/bin
-
-    tasks.phpcsfixer2.config: ./resources/php56.config.php
+    tasks.phpcsfixer.config: .php-cs-fixer.dist.php
 
     tasks.phpcs.whitelist_patterns:
         - src/
@@ -13,21 +10,14 @@ parameters:
         - tests/
         - spec/
 
-    skip_tasks:
-        - phpstan
-
     extra_tasks:
         codeception: ~
         phpspec:
             verbose: true
-            metadata:
-                priority: 3000
         infection:
             threads: 10
             test_framework: phpspec
             configuration: infection.json.dist
             min_msi: 0
             min_covered_msi: 0
-            metadata:
-                priority: 2000
 

@@ -34,7 +34,7 @@ function foo(array $arg) {
 
   $concat = 'string' . 'string' . 'string';
 
-  if (\in_array($arg, $options, TRUE)) {
+  if (in_array($arg, $options, TRUE)) {
   }
 
   try {

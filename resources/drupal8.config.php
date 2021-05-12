@@ -7,6 +7,6 @@
 
 declare(strict_types=1);
 
-use drupol\PhpCsFixerConfigsDrupal\Config\Drupal7;
+use drupol\PhpCsFixerConfigsDrupal\Config\Drupal8;
 
-return new Drupal7();
+return new Drupal8();

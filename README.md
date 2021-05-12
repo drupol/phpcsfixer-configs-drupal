@@ -8,7 +8,7 @@
  [![License](https://img.shields.io/packagist/l/drupol/phpcsfixer-configs-drupal.svg?style=flat-square)](https://packagist.org/packages/drupol/phpcsfixer-configs-drupal)
  [![Say Thanks!](https://img.shields.io/badge/Say-thanks-brightgreen.svg?style=flat-square)](https://saythanks.io/to/drupol)
  [![Donate!](https://img.shields.io/badge/Donate-Paypal-brightgreen.svg?style=flat-square)](https://paypal.me/drupol)
- 
+
 # PHP-Cs-Fixer Drupal Configurations
 
 ## Description
@@ -19,8 +19,8 @@ This package provides a set [PHP-Cs-Fixer](https://github.com/FriendsOfPHP/PHP-C
 
 Available configuration objects:
 
-* `drupol\PhpCsFixerConfigsDrupal\Config\Drupal6`
 * `drupol\PhpCsFixerConfigsDrupal\Config\Drupal7`
+* `drupol\PhpCsFixerConfigsDrupal\Config\Drupal8`
 
 ## Requirements
 

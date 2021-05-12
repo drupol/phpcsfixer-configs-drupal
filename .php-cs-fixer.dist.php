@@ -1,8 +1,6 @@
 <?php
 
-use drupol\PhpCsFixerConfigsPhp\Config\Php56;
-
-$config = Php56::create();
+$config = require __DIR__ . '/vendor/drupol/php-conventions/config/php73/php_cs_fixer.config.php';
 
 $config
     ->getFinder()

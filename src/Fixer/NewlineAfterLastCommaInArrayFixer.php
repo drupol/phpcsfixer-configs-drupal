@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 /*
  * This file is part of PHP CS Fixer.
  *
@@ -12,18 +19,25 @@
 
 namespace drupol\PhpCsFixerConfigsDrupal\Fixer;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use PhpCsFixer\WhitespacesFixerConfig;
+use SplFileInfo;
 
-final class NewlineAfterLastCommaInArrayFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+use const T_ARRAY;
+use const T_INLINE_HTML;
+use const T_OPEN_TAG;
+use const T_WHITESPACE;
+
+final class NewlineAfterLastCommaInArrayFixer implements FixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var \PhpCsFixer\WhitespacesFixerConfig
@@ -43,10 +57,7 @@ final class NewlineAfterLastCommaInArrayFixer implements DefinedFixerInterface, 
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(\SplFileInfo $file, Tokens $tokens)
+    public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         $tokensAnalyzer = new TokensAnalyzer($tokens);
 
@@ -57,10 +68,7 @@ final class NewlineAfterLastCommaInArrayFixer implements DefinedFixerInterface, 
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDefinition()
+    public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
             'In array declaration, if the array is multiline, the closing tag must be on a newline.',
@@ -75,7 +83,7 @@ final class NewlineAfterLastCommaInArrayFixer implements DefinedFixerInterface, 
      *
      * @return string The name of the fixer
      */
-    public function getName()
+    public function getName(): string
     {
         return 'Drupal/new_line_on_multiline_array';
     }
@@ -84,38 +92,28 @@ final class NewlineAfterLastCommaInArrayFixer implements DefinedFixerInterface, 
      * Returns the priority of the fixer.
      *
      * The default priority is 0 and higher priorities are executed first.
-     *
-     * @return int
      */
-    public function getPriority()
+    public function getPriority(): int
     {
         return 10000;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isCandidate(Tokens $tokens)
+    public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound([\T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN]);
+        return $tokens->isAnyTokenKindsFound([T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN]);
     }
 
     /**
      * Check if fixer is risky or not.
      *
      * Risky fixer could change code behavior!
-     *
-     * @return bool
      */
-    public function isRisky()
+    public function isRisky(): bool
     {
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setWhitespacesConfig(WhitespacesFixerConfig $config)
+    public function setWhitespacesConfig(WhitespacesFixerConfig $config): void
     {
         $this->whitespacesConfig = $config;
     }
@@ -123,24 +121,21 @@ final class NewlineAfterLastCommaInArrayFixer implements DefinedFixerInterface, 
     /**
      * Returns true if the file is supported by this fixer.
      *
-     * @param \SplFileInfo $file
-     *
      * @return bool true if the file is supported by this fixer, false otherwise
      */
-    public function supports(\SplFileInfo $file)
+    public function supports(SplFileInfo $file): bool
     {
         return true;
     }
 
     /**
-     * @param Tokens $tokens
      * @param int    $index
      */
     private function fixArray(Tokens $tokens, $index)
     {
         $startIndex = $index;
 
-        if ($tokens[$startIndex]->isGivenKind(\T_ARRAY)) {
+        if ($tokens[$startIndex]->isGivenKind(T_ARRAY)) {
             $startIndex = $tokens->getNextTokenOfKind($startIndex, ['(']);
             $endIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startIndex);
         } else {
@@ -162,17 +157,16 @@ final class NewlineAfterLastCommaInArrayFixer implements DefinedFixerInterface, 
         $beforeEndToken = $tokens[$beforeEndIndex];
 
         if ($startIndex !== $beforeEndIndex && !$beforeEndToken->equalsAny([$lineEnding])) {
-            $tokens->insertAt($beforeEndIndex + 1, new Token([\T_WHITESPACE, $lineEnding]));
+            $tokens->insertAt($beforeEndIndex + 1, new Token([T_WHITESPACE, $lineEnding]));
         }
     }
 
     /**
      * Mostly taken from MethodChainingIndentationFixer.
      *
-     * @param Tokens $tokens
      * @param int    $index  index of the indentation token
      *
-     * @return null|string
+     * @return string|null
      */
     private function getIndentAt(Tokens $tokens, $index)
     {
@@ -189,13 +183,13 @@ final class NewlineAfterLastCommaInArrayFixer implements DefinedFixerInterface, 
     private function getIndentContentAt(Tokens $tokens, $index)
     {
         for ($i = $index; 0 <= $i; --$i) {
-            if (!$tokens[$index]->isGivenKind([\T_WHITESPACE, \T_INLINE_HTML])) {
+            if (!$tokens[$index]->isGivenKind([T_WHITESPACE, T_INLINE_HTML])) {
                 continue;
             }
 
             $content = $tokens[$index]->getContent();
 
-            if ($tokens[$index]->isWhitespace() && $tokens[$index - 1]->isGivenKind(\T_OPEN_TAG)) {
+            if ($tokens[$index]->isWhitespace() && $tokens[$index - 1]->isGivenKind(T_OPEN_TAG)) {
                 $content = $tokens[$index - 1]->getContent() . $content;
             }
 

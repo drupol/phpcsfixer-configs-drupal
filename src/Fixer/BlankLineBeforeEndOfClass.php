@@ -1,17 +1,28 @@
 <?php
 
+/**
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace drupol\PhpCsFixerConfigsDrupal\Fixer;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use PhpCsFixer\WhitespacesFixerConfig;
+use SplFileInfo;
 
-final class BlankLineBeforeEndOfClass implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+use const T_WHITESPACE;
+
+final class BlankLineBeforeEndOfClass implements FixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var Tokens
@@ -41,10 +52,7 @@ final class BlankLineBeforeEndOfClass implements DefinedFixerInterface, Whitespa
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(\SplFileInfo $file, Tokens $tokens)
+    public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         $this->tokens = $tokens;
         $this->tokensAnalyzer = new TokensAnalyzer($this->tokens);
@@ -62,16 +70,13 @@ final class BlankLineBeforeEndOfClass implements DefinedFixerInterface, Whitespa
             );
 
             $this->tokens[$endCurlyBraceIndex] = new Token([
-                \T_WHITESPACE,
+                T_WHITESPACE,
                 $this->whitespacesConfig->getLineEnding() . $this->tokens[$endCurlyBraceIndex]->getContent(),
             ]);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDefinition()
+    public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
             'A class must have a blank line before the last closing brace.',
@@ -83,47 +88,32 @@ final class BlankLineBeforeEndOfClass implements DefinedFixerInterface, Whitespa
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'Drupal/blank_line_before_end_of_class';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
+    public function getPriority(): int
     {
         return -10000;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isCandidate(Tokens $tokens)
+    public function isCandidate(Tokens $tokens): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isRisky()
+    public function isRisky(): bool
     {
         return false;
     }
 
-    public function setWhitespacesConfig(WhitespacesFixerConfig $config)
+    public function setWhitespacesConfig(WhitespacesFixerConfig $config): void
     {
         $this->whitespacesConfig = $config;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(\SplFileInfo $file)
+    public function supports(SplFileInfo $file): bool
     {
         return true;
     }

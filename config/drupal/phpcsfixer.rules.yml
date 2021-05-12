@@ -8,7 +8,6 @@ parameters:
                 - continue
                 - declare
                 - default
-                - die
                 - do
                 - exit
                 - for
@@ -30,7 +29,6 @@ parameters:
             position_after_functions_and_oop_constructs: same
             position_after_control_structures: same
             position_after_anonymous_constructs: same
-        class_attributes_separation: false
         comment_to_phpdoc: false
         compact_nullable_typehint: true
         constant_case:
@@ -62,9 +60,8 @@ parameters:
         # indentation_type: true
         indentation_type: false
         line_ending: true
-        lowercase_constants: false
         lowercase_keywords: true
-        method_separation: false
+        class_attributes_separation: false
         no_alternative_syntax: false
         no_blank_lines_after_class_opening: false
         no_blank_lines_after_phpdoc : false

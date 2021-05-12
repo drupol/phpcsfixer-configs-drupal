@@ -50,6 +50,12 @@ parameters:
         full_opening_tag: true
         function_declaration:
             closure_function_spacing: one
+        general_phpdoc_annotation_remove:
+            annotations:
+                - package
+                - subpackage
+                - author
+                - version
         global_namespace_import:
             # Disabled because of conflicts with drupal/coder.
             # Error: Data types in @param tags need to be fully namespaced (Drupal.Commenting.DataTypeNamespace.DataTypeNamespace)
@@ -83,6 +89,10 @@ parameters:
             use: print
         no_spaces_after_function_name: true
         no_spaces_inside_parenthesis: true
+        no_superfluous_phpdoc_tags:
+            allow_mixed: true
+            allow_unused_params: true
+            remove_inheritdoc: false
         phpdoc_add_missing_param_annotation: false
         single_line_comment_style: true
         single_quote:

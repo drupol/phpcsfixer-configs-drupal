@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace drupol\PhpCsFixerConfigsDrupal\Config;
 
+use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineAfterStartOfClass;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineBeforeEndOfClass;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\ControlStructureCurlyBracketsElseFixer;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\InlineCommentSpacerFixer;
@@ -43,6 +44,7 @@ final class Drupal extends YamlConfig
         $this
             ->registerCustomFixers([
                 new BlankLineBeforeEndOfClass($this->getIndent(), $this->getLineEnding()),
+                new BlankLineAfterStartOfClass($this->getIndent(), $this->getLineEnding()),
                 new ControlStructureCurlyBracketsElseFixer($this->getIndent(), $this->getLineEnding()),
                 new InlineCommentSpacerFixer(),
                 new TryCatchBlock($this->getIndent(), $this->getLineEnding()),

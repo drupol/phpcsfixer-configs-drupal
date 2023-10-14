@@ -24,15 +24,15 @@ parameters:
                 - try
                 - while
                 - yield
-        braces:
-            allow_single_line_closure: true
-            position_after_functions_and_oop_constructs: same
-            position_after_control_structures: same
-            position_after_anonymous_constructs: same
+        braces_position:
+            classes_opening_brace: same_line
+            control_structures_opening_brace: same_line
+            functions_opening_brace: same_line
         comment_to_phpdoc: false
-        compact_nullable_typehint: true
         constant_case:
             case: upper
+        control_structure_continuation_position:
+            position: next_line
         declare_equal_normalize:
             space: single
         Drupal/blank_line_after_start_of_class: true
@@ -68,7 +68,7 @@ parameters:
         indentation_type: false
         line_ending: true
         lowercase_keywords: true
-        class_attributes_separation: false
+        class_attributes_separation: true
         no_alternative_syntax: false
         no_blank_lines_after_class_opening: false
         no_blank_lines_after_phpdoc : false
@@ -85,11 +85,9 @@ parameters:
                 - switch
                 - throw
                 - use
-                - use_trait
         no_mixed_echo_print:
             use: print
         no_spaces_after_function_name: true
-        no_spaces_inside_parenthesis: true
         no_superfluous_phpdoc_tags:
             allow_mixed: true
             allow_unused_params: true
@@ -98,6 +96,8 @@ parameters:
         single_line_comment_style: true
         single_quote:
             strings_containing_single_quote_chars: false
+        single_space_around_construct: true
+        spaces_inside_parentheses: true
         switch_case_semicolon_to_colon: true
         switch_case_space: true
         visibility_required: true

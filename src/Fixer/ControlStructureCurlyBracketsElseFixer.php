@@ -146,26 +146,24 @@ final class ControlStructureCurlyBracketsElseFixer implements FixerInterface, Wh
     }
 
     /**
-     * Mostly taken from MethodChainingIndentationFixer.
-     *
-     * @param int    $start  index of first meaningful token on previous line
-     * @param int    $end    index of last token on previous line
-     *
-     * @return bool
+     * @param int $start index of first meaningful token on previous line
+     * @param int $end   index of last token on previous line
      */
-    private function currentLineRequiresExtraIndentLevel(Tokens $tokens, $start, $end)
+    private function currentLineRequiresExtraIndentLevel(Tokens $tokens, int $start, int $end): bool
     {
-        if ($tokens[$start + 1]->isGivenKind(T_OBJECT_OPERATOR)) {
-            return false;
-        }
+        $firstMeaningful = $tokens->getNextMeaningfulToken($start);
 
-        if ($tokens[$end]->isGivenKind(CT::T_BRACE_CLASS_INSTANTIATION_CLOSE)) {
-            return true;
+        if ($tokens[$firstMeaningful]->isObjectOperator()) {
+            $thirdMeaningful = $tokens->getNextMeaningfulToken($tokens->getNextMeaningfulToken($firstMeaningful));
+
+            return
+                $tokens[$thirdMeaningful]->equals('(')
+                && $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $thirdMeaningful) > $end;
         }
 
         return
-        !$tokens[$end]->equals(')')
-        || $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $end) >= $start;
+            !$tokens[$end]->equals(')')
+            || $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $end) >= $start;
     }
 
     /**
@@ -175,24 +173,23 @@ final class ControlStructureCurlyBracketsElseFixer implements FixerInterface, Wh
      *
      * @return string
      */
-    private function getExpectedIndentAt(Tokens $tokens, $index)
+    private function getExpectedIndentAt(Tokens $tokens, int $index): string
     {
         $index = $tokens->getPrevMeaningfulToken($index);
         $indent = $this->whitespacesConfig->getIndent();
 
-        for ($i = $index; 0 <= $i; --$i) {
+        for ($i = $index; $i >= 0; --$i) {
             if ($tokens[$i]->equals(')')) {
                 $i = $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i);
             }
 
             $currentIndent = $this->getIndentAt($tokens, $i);
-
             if (null === $currentIndent) {
                 continue;
             }
 
             if ($this->currentLineRequiresExtraIndentLevel($tokens, $i, $index)) {
-                return $currentIndent . $indent;
+                return $currentIndent.$indent;
             }
 
             return $currentIndent;
@@ -208,11 +205,13 @@ final class ControlStructureCurlyBracketsElseFixer implements FixerInterface, Wh
      *
      * @return string|null
      */
-    private function getIndentAt(Tokens $tokens, $index)
+    private function getIndentAt(Tokens $tokens, int $index): ?string
     {
-        if (1 === Preg::match('/\R{1}([ \t]*)$/', $this->getIndentContentAt($tokens, $index), $matches)) {
+        if (Preg::match('/\R{1}(\h*)$/', $this->getIndentContentAt($tokens, $index), $matches)) {
             return $matches[1];
         }
+
+        return null;
     }
 
     /**
@@ -220,22 +219,20 @@ final class ControlStructureCurlyBracketsElseFixer implements FixerInterface, Wh
      *
      * {@inheritdoc}
      */
-    private function getIndentContentAt(Tokens $tokens, $index)
+    private function getIndentContentAt(Tokens $tokens, int $index): string
     {
-        for ($i = $index; 0 <= $i; --$i) {
-            if (!$tokens[$index]->isGivenKind([T_WHITESPACE, T_INLINE_HTML])) {
-                continue;
-            }
+        if (!$tokens[$index]->isGivenKind([T_WHITESPACE, T_INLINE_HTML])) {
+            return '';
+        }
 
-            $content = $tokens[$index]->getContent();
+        $content = $tokens[$index]->getContent();
 
-            if ($tokens[$index]->isWhitespace() && $tokens[$index - 1]->isGivenKind(T_OPEN_TAG)) {
-                $content = $tokens[$index - 1]->getContent() . $content;
-            }
+        if ($tokens[$index]->isWhitespace() && $tokens[$index - 1]->isGivenKind(T_OPEN_TAG)) {
+            $content = $tokens[$index - 1]->getContent().$content;
+        }
 
-            if (Preg::match('/\R/', $content)) {
-                return $content;
-            }
+        if (Preg::match('/\R/', $content)) {
+            return $content;
         }
 
         return '';

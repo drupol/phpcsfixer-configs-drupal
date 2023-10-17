@@ -19,6 +19,7 @@ declare(strict_types=1);
 
 namespace drupol\PhpCsFixerConfigsDrupal\Fixer;
 
+use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -37,27 +38,9 @@ use const T_INLINE_HTML;
 use const T_OPEN_TAG;
 use const T_WHITESPACE;
 
-final class NewlineAfterLastCommaInArrayFixer implements FixerInterface, WhitespacesAwareFixerInterface
+final class NewlineAfterLastCommaInArrayFixer extends AbstractFixer implements FixerInterface, WhitespacesAwareFixerInterface
 {
-    /**
-     * @var \PhpCsFixer\WhitespacesFixerConfig
-     */
-    private $whitespacesConfig;
-
-    /**
-     * NewlineAfterLastCommaInArrayFixer constructor.
-     *
-     * @param $indent
-     * @param $lineEnding
-     */
-    public function __construct($indent, $lineEnding)
-    {
-        $this->setWhitespacesConfig(
-            new WhitespacesFixerConfig($indent, $lineEnding)
-        );
-    }
-
-    public function fix(SplFileInfo $file, Tokens $tokens): void
+    protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
     {
         $tokensAnalyzer = new TokensAnalyzer($tokens);
 
@@ -168,11 +151,13 @@ final class NewlineAfterLastCommaInArrayFixer implements FixerInterface, Whitesp
      *
      * @return string|null
      */
-    private function getIndentAt(Tokens $tokens, $index)
+    private function getIndentAt(Tokens $tokens, int $index): ?string
     {
-        if (1 === Preg::match('/\R{1}([ \t]*)$/', $this->getIndentContentAt($tokens, $index), $matches)) {
+        if (Preg::match('/\R{1}(\h*)$/', $this->getIndentContentAt($tokens, $index), $matches)) {
             return $matches[1];
         }
+
+        return null;
     }
 
     /**
@@ -180,22 +165,20 @@ final class NewlineAfterLastCommaInArrayFixer implements FixerInterface, Whitesp
      *
      * {@inheritdoc}
      */
-    private function getIndentContentAt(Tokens $tokens, $index)
+    private function getIndentContentAt(Tokens $tokens, int $index): string
     {
-        for ($i = $index; 0 <= $i; --$i) {
-            if (!$tokens[$index]->isGivenKind([T_WHITESPACE, T_INLINE_HTML])) {
-                continue;
-            }
+        if (!$tokens[$index]->isGivenKind([T_WHITESPACE, T_INLINE_HTML])) {
+            return '';
+        }
 
-            $content = $tokens[$index]->getContent();
+        $content = $tokens[$index]->getContent();
 
-            if ($tokens[$index]->isWhitespace() && $tokens[$index - 1]->isGivenKind(T_OPEN_TAG)) {
-                $content = $tokens[$index - 1]->getContent() . $content;
-            }
+        if ($tokens[$index]->isWhitespace() && $tokens[$index - 1]->isGivenKind(T_OPEN_TAG)) {
+            $content = $tokens[$index - 1]->getContent().$content;
+        }
 
-            if (Preg::match('/\R/', $content)) {
-                return $content;
-            }
+        if (Preg::match('/\R/', $content)) {
+            return $content;
         }
 
         return '';

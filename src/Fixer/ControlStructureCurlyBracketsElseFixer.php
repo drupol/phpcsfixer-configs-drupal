@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace drupol\PhpCsFixerConfigsDrupal\Fixer;
 
+use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -32,26 +33,22 @@ use const T_WHITESPACE;
 /**
  * Class ControlStructureCurlyBracketsElseFixer.
  */
-final class ControlStructureCurlyBracketsElseFixer implements FixerInterface, WhitespacesAwareFixerInterface
+final class ControlStructureCurlyBracketsElseFixer extends AbstractFixer implements FixerInterface, WhitespacesAwareFixerInterface
 {
-    /**
-     * @var \PhpCsFixer\WhitespacesFixerConfig
-     */
-    private $whitespacesConfig;
 
-    /**
-     * ControlStructureCurlyBracketsElseFixer constructor.
-     *
-     * @param $indent
-     * @param $lineEnding
-     */
-    public function __construct($indent, $lineEnding)
-    {
-        $this->setWhitespacesConfig(
-            new WhitespacesFixerConfig($indent, $lineEnding)
-        );
-    }
-
+//    /**
+//     * ControlStructureCurlyBracketsElseFixer constructor.
+//     *
+//     * @param $indent
+//     * @param $lineEnding
+//     */
+//    public function __construct($indent, $lineEnding)
+//    {
+//        $this->setWhitespacesConfig(
+//            new WhitespacesFixerConfig($indent, $lineEnding)
+//        );
+//    }
+/*
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
@@ -102,7 +99,7 @@ final class ControlStructureCurlyBracketsElseFixer implements FixerInterface, Wh
             );
         }
     }
-
+*/
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -236,5 +233,56 @@ final class ControlStructureCurlyBracketsElseFixer implements FixerInterface, Wh
         }
 
         return '';
+    }
+
+    protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
+    {
+        foreach ($tokens as $index => $token) {
+            if (!$token->isGivenKind([T_ELSE, T_ELSEIF])) {
+                continue;
+            }
+
+            // Ignore old style constructions.
+            // if ($something):
+            $next = $tokens->getNextNonWhitespace($index);
+
+            if ($token->isGivenKind([T_ELSE])) {
+                if (':' === $tokens[$next]->getContent()) {
+                    continue;
+                }
+            }
+
+            // Ignore old style constructions.
+            // elseif ($something):
+            if ($token->isGivenKind([T_ELSEIF])) {
+                if ('(' === $tokens[$next]->getContent()) {
+                    $endParenthesis = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $next);
+
+                    $next = $tokens->getNextNonWhitespace($endParenthesis);
+
+                    if (':' === $tokens[$next]->getContent()) {
+                        continue;
+                    }
+                }
+            }
+
+            $tokens[$index - 1] = new Token(
+                [
+                    T_WHITESPACE,
+                    $this->whitespacesConfig->getLineEnding(), ]
+            );
+
+            $padding = mb_substr(
+                $this->getExpectedIndentAt($tokens, $index),
+                0,
+                -mb_strlen($this->whitespacesConfig->getIndent())
+            );
+
+            $tokens[$index] = new Token(
+                [
+                    T_WHITESPACE,
+                    $padding . $tokens[$index]->getContent(), ]
+            );
+        }
     }
 }

@@ -1,23 +1,25 @@
-imports:
-  - { resource: vendor/drupol/php-conventions/config/php73/grumphp.yml }
+grumphp:
+    tasks:
+        # PHP Unit
+        phpunit:
+            config_file: ~
+            testsuite: ~
+            group: []
+            exclude_group: []
+            always_execute: false
+            order: null
 
-parameters:
-    tasks.phpcsfixer.config: .php-cs-fixer.dist.php
+        # PHP CS Fixer
+        # phpcsfixer: ~
 
-    tasks.phpcs.whitelist_patterns:
-        - src/
-    tasks.phpcs.ignore_patterns:
-        - tests/
-        - spec/
+        # Composer checks
+        composer: ~
 
-    extra_tasks:
-        codeception: ~
-        phpspec:
-            verbose: true
-        infection:
-            threads: 10
-            test_framework: phpspec
-            configuration: infection.json.dist
-            min_msi: 0
-            min_covered_msi: 0
+        # Composer checks
+        composer_normalize: ~
 
+        # Composer require checker
+        composer_require_checker: ~
+
+        # YAML Lint
+        yamllint: ~

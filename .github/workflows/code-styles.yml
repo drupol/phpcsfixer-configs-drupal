@@ -1,0 +1,28 @@
+name: code-styles
+on: [pull_request]
+
+jobs:
+  grumphp:
+    name: grumphp
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: php-cs-fixer, cs2pr
+      - uses: actions/checkout@v2
+      - run: composer install --prefer-dist
+      - run: ./vendor/bin/grumphp run --tasks=phpcsfixer,composer,composer_normalize,composer_require_checker,yamllint
+
+  security-checker:
+    name: security-checker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          tools: composer:v2
+      - uses: actions/checkout@v2
+      - run: composer install --prefer-dist
+      - uses: symfonycorp/security-checker-action@v3

@@ -57,14 +57,12 @@ final class BlankLineAfterStartOfClassTest extends FixerTestCase
 
             class Bar {
 
-            public ?string $foo = null;
-            
+              public ?string $foo = null;
             }',
             '<?php
 
             class Bar {
-            public ?string $foo = null;
-            
+              public ?string $foo = null;
             }',
         ];
     }

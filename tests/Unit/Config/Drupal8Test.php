@@ -6,7 +6,7 @@ use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineAfterStartOfClass;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineBeforeEndOfClass;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\ControlStructureCurlyBracketsElseFixer;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\InlineCommentSpacerFixer;
-use drupol\PhpCsFixerConfigsDrupal\Fixer\TryCatchBlock;
+use drupol\PhpCsFixerConfigsDrupal\Fixer\TryCatchFinallyBlockFixer;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
 
@@ -17,7 +17,7 @@ use Symfony\Component\Finder\Finder;
  *
  * @covers \drupol\PhpCsFixerConfigsDrupal\Config\Drupal8
  */
-final class Drupal8 extends TestCase
+final class Drupal8Test extends TestCase
 {
     public function testConfigDefault(): void
     {
@@ -30,7 +30,7 @@ final class Drupal8 extends TestCase
         self::assertInstanceOf(BlankLineBeforeEndOfClass::class, $fixers[1]);
         self::assertInstanceOf(ControlStructureCurlyBracketsElseFixer::class, $fixers[2]);
         self::assertInstanceOf(InlineCommentSpacerFixer::class, $fixers[3]);
-        self::assertInstanceOf(TryCatchBlock::class, $fixers[4]);
+        self::assertInstanceOf(TryCatchFinallyBlockFixer::class, $fixers[4]);
 
         self::assertSame('txt', $config->getFormat());
         self::assertFalse($config->getHideProgress());

@@ -22,20 +22,21 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 
 use const T_CATCH;
+use const T_FINALLY;
 use const T_INLINE_HTML;
 use const T_OPEN_TAG;
 use const T_TRY;
 use const T_WHITESPACE;
 
 /**
- * Class ControlStructureCurlyBracketsElseFixer.
+ * Class TryCatchFinallyBlockFixer.
  */
-final class TryCatchBlock extends AbstractFixer implements FixerInterface, WhitespacesAwareFixerInterface
+final class TryCatchFinallyBlockFixer extends AbstractFixer implements FixerInterface, WhitespacesAwareFixerInterface
 {
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
-            if (!$token->isGivenKind([T_CATCH])) {
+            if (!$token->isGivenKind([T_CATCH, T_FINALLY])) {
                 continue;
             }
 
@@ -62,7 +63,7 @@ final class TryCatchBlock extends AbstractFixer implements FixerInterface, White
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            'Fix try/catch block structure.',
+            'Fix try/catch/finally block structure.',
             [
                 new CodeSample(
                     ''

@@ -43,7 +43,8 @@ function foo(array $arg) {
     }
     catch (Exception $e) {
         // exception caught
-    } finally {
+    }
+    finally {
         // do something
     }
 

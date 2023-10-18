@@ -47,8 +47,7 @@
         // do something dangerous
     }catch (Exception $e) {
         // exception caught
-    }
-    finally {
+    }finally {
         // do something
     }
 

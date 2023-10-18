@@ -43,7 +43,7 @@ final class Drupal extends YamlConfig
 
         $this
             ->registerCustomFixers([
-                new BlankLineAfterStartOfClass($this->getIndent(), $this->getLineEnding()),
+                new BlankLineAfterStartOfClass(),
                 new BlankLineBeforeEndOfClass($this->getIndent(), $this->getLineEnding()),
                 new ControlStructureCurlyBracketsElseFixer(),
                 new InlineCommentSpacerFixer(),

@@ -9,11 +9,13 @@ declare(strict_types=1);
 
 namespace drupol\PhpCsFixerConfigsDrupal\Fixer;
 
+use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
@@ -22,7 +24,7 @@ use SplFileInfo;
 
 use const T_WHITESPACE;
 
-final class BlankLineBeforeEndOfClass implements FixerInterface, WhitespacesAwareFixerInterface
+final class BlankLineBeforeEndOfClass extends AbstractFixer implements FixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var Tokens
@@ -34,22 +36,7 @@ final class BlankLineBeforeEndOfClass implements FixerInterface, WhitespacesAwar
      */
     private $tokensAnalyzer;
 
-    /**
-     * @var \PhpCsFixer\WhitespacesFixerConfig
-     */
-    private $whitespacesConfig;
-
-    /**
-     * BlankLineAfterStatementFixer constructor.
-     */
-    public function __construct($indent, $lineEnding)
-    {
-        $this->setWhitespacesConfig(
-            new WhitespacesFixerConfig($indent, $lineEnding)
-        );
-    }
-
-    public function fix(SplFileInfo $file, Tokens $tokens): void
+    public function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         $this->tokens = $tokens;
         $this->tokensAnalyzer = new TokensAnalyzer($this->tokens);
@@ -66,11 +53,106 @@ final class BlankLineBeforeEndOfClass implements FixerInterface, WhitespacesAwar
                 $indexOpenCurlyBrace
             );
 
+            $padding = mb_substr(
+                $this->getExpectedIndentAt($tokens, $endCurlyBraceIndex),
+                0,
+                -mb_strlen($this->whitespacesConfig->getIndent())
+            );
+
             $this->tokens[$endCurlyBraceIndex] = new Token([
                 T_WHITESPACE,
-                $this->whitespacesConfig->getLineEnding() . $this->tokens[$endCurlyBraceIndex]->getContent(),
+                $this->whitespacesConfig->getLineEnding() . $padding . $this->tokens[$endCurlyBraceIndex]->getContent(),
             ]);
         }
+    }
+
+    /**
+     * @param int $start index of first meaningful token on previous line
+     * @param int $end   index of last token on previous line
+     */
+    private function currentLineRequiresExtraIndentLevel(Tokens $tokens, int $start, int $end): bool
+    {
+        $firstMeaningful = $tokens->getNextMeaningfulToken($start);
+
+        if ($tokens[$firstMeaningful]->isObjectOperator()) {
+            $thirdMeaningful = $tokens->getNextMeaningfulToken($tokens->getNextMeaningfulToken($firstMeaningful));
+
+            return
+                $tokens[$thirdMeaningful]->equals('(')
+                && $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $thirdMeaningful) > $end;
+        }
+
+        return
+            !$tokens[$end]->equals(')')
+            || $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $end) >= $start;
+    }
+
+    /**
+     * Mostly taken from MethodChainingIndentationFixer.
+     *
+     * @param int    $index  index of the first token on the line to indent
+     */
+    private function getExpectedIndentAt(Tokens $tokens, int $index): string
+    {
+        $index = $tokens->getPrevMeaningfulToken($index);
+        $indent = $this->whitespacesConfig->getIndent();
+
+        for ($i = $index; $i >= 0; --$i) {
+            if ($tokens[$i]->equals(')')) {
+                $i = $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i);
+            }
+
+            $currentIndent = $this->getIndentAt($tokens, $i);
+            if (null === $currentIndent) {
+                continue;
+            }
+
+            if ($this->currentLineRequiresExtraIndentLevel($tokens, $i, $index)) {
+                return $currentIndent . $indent;
+            }
+
+            return $currentIndent;
+        }
+
+        return $indent;
+    }
+
+    /**
+     * Mostly taken from MethodChainingIndentationFixer.
+     *
+     * @param int    $index  index of the indentation token
+     */
+    private function getIndentAt(Tokens $tokens, int $index): ?string
+    {
+        if (Preg::match('/\R{1}(\h*)$/', $this->getIndentContentAt($tokens, $index), $matches)) {
+            return $matches[1];
+        }
+
+        return null;
+    }
+
+    /**
+     * Mostly taken from MethodChainingIndentationFixer.
+     *
+     * {@inheritdoc}
+     */
+    private function getIndentContentAt(Tokens $tokens, int $index): string
+    {
+        if (!$tokens[$index]->isGivenKind([T_WHITESPACE, T_INLINE_HTML])) {
+            return '';
+        }
+
+        $content = $tokens[$index]->getContent();
+
+        if ($tokens[$index]->isWhitespace() && $tokens[$index - 1]->isGivenKind(T_OPEN_TAG)) {
+            $content = $tokens[$index - 1]->getContent() . $content;
+        }
+
+        if (Preg::match('/\R/', $content)) {
+            return $content;
+        }
+
+        return '';
     }
 
     public function getDefinition(): FixerDefinitionInterface

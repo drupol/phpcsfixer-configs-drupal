@@ -2,9 +2,9 @@
 
 namespace drupol\PhpCsFixerConfigsDrupal\Tests\Unit\Fixer;
 
+use drupol\PhpCsFixerConfigsDrupal\Fixer\ControlStructureCurlyBracketsElseFixer;
 use drupol\PhpCsFixerConfigsDrupal\Tests\FixerTestCase;
 use PhpCsFixer\Fixer\FixerInterface;
-use drupol\PhpCsFixerConfigsDrupal\Fixer\ControlStructureCurlyBracketsElseFixer;
 
 /**
  * @author Kevin Wenger <wenger.kev@gmail.com>
@@ -21,14 +21,15 @@ final class ControlStructureCurlyBracketsElseFixerTest extends FixerTestCase
         $this->fixer = $this->createFixer();
     }
 
-    protected function createFixer(): FixerInterface {
+    protected function createFixer(): FixerInterface
+    {
         return new ControlStructureCurlyBracketsElseFixer();
     }
 
     /**
      * @dataProvider provideFixCases
      */
-    public function testFix(string $expected, ?string $input = null): void
+    public function testFix(string $expected, string $input = null): void
     {
         $this->doTest($expected, $input);
     }
@@ -38,7 +39,7 @@ final class ControlStructureCurlyBracketsElseFixerTest extends FixerTestCase
         yield [
             '<?php if ($some) { $test = true; }
 else { $test = false; }',
-            '<?php if ($some) { $test = true; } else { $test = false; }'
+            '<?php if ($some) { $test = true; } else { $test = false; }',
         ];
 
         yield [
@@ -110,14 +111,14 @@ else if ($b){}',
         yield [
             '<?php if ($x) { foo(); }
 else if ($y): bar(); endif;',
-            '<?php if ($x) { foo(); } else if ($y): bar(); endif;'
+            '<?php if ($x) { foo(); } else if ($y): bar(); endif;',
         ];
     }
 
     /**
      * @dataProvider provideWithElseCases
      */
-    public function testWithElse(string $expected, ?string $input = null): void
+    public function testWithElse(string $expected, string $input = null): void
     {
         $this->doTest($expected, $input);
     }
@@ -126,51 +127,51 @@ else if ($y): bar(); endif;',
     {
         // Else should be moved on the next line after closing if bracket.
         yield [
-            "<?php 
-            if (\$a) {
-                \$a = 1;
+            '<?php 
+            if ($a) {
+                $a = 1;
             }
             else {
-                \$a = 2;
-            }",
-            "<?php 
-            if (\$a) {
-                \$a = 1;
+                $a = 2;
+            }',
+            '<?php 
+            if ($a) {
+                $a = 1;
             } else {
-                \$a = 2;
-            }",
+                $a = 2;
+            }',
         ];
 
         // Embed Else should still have proper indent.
         yield [
-            "<?php 
-            if (\$a) {
-                \$a = 1;
+            '<?php 
+            if ($a) {
+                $a = 1;
                 
-                if (\$c) {
-                  \$a = 3;
+                if ($c) {
+                  $a = 3;
                 }
                 else {
-                  \$a = 4;
+                  $a = 4;
                 }
-            }",
-            "<?php 
-            if (\$a) {
-                \$a = 1;
+            }',
+            '<?php 
+            if ($a) {
+                $a = 1;
                 
-                if (\$c) {
-                  \$a = 3;
+                if ($c) {
+                  $a = 3;
                 } else {
-                  \$a = 4;
+                  $a = 4;
                 }
-            }",
+            }',
         ];
     }
 
     /**
      * @dataProvider provideWithElseIfCases
      */
-    public function testWithElseIf(string $expected, ?string $input = null): void
+    public function testWithElseIf(string $expected, string $input = null): void
     {
         $this->doTest($expected, $input);
     }
@@ -179,20 +180,19 @@ else if ($y): bar(); endif;',
     {
         // Else should be moved on the next line after closing if bracket.
         yield [
-            "<?php 
-            if (\$a) {
-                \$a = 1;
+            '<?php 
+            if ($a) {
+                $a = 1;
             }
-            elseif (\$b) {
-                \$a = 2;
-            }",
-            "<?php 
-            if (\$a) {
-                \$a = 1;
-            } elseif (\$b) {
-                \$a = 2;
-            }",
+            elseif ($b) {
+                $a = 2;
+            }',
+            '<?php 
+            if ($a) {
+                $a = 1;
+            } elseif ($b) {
+                $a = 2;
+            }',
         ];
-
     }
 }

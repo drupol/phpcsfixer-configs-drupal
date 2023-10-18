@@ -16,7 +16,6 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 
@@ -31,9 +30,6 @@ final class BlankLineAfterStartOfClass implements FixerInterface, WhitespacesAwa
 
     /**
      * BlankLineAfterStatementFixer constructor.
-     *
-     * @param mixed $indent
-     * @param mixed $lineEnding
      */
     public function __construct($indent, $lineEnding)
     {

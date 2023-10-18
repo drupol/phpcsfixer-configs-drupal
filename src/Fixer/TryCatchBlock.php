@@ -16,7 +16,6 @@ use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Preg;
-use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
@@ -24,7 +23,6 @@ use SplFileInfo;
 
 use const T_CATCH;
 use const T_INLINE_HTML;
-use const T_OBJECT_OPERATOR;
 use const T_OPEN_TAG;
 use const T_TRY;
 use const T_WHITESPACE;
@@ -34,8 +32,7 @@ use const T_WHITESPACE;
  */
 final class TryCatchBlock extends AbstractFixer implements FixerInterface, WhitespacesAwareFixerInterface
 {
-
-    protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
             if (!$token->isGivenKind([T_CATCH])) {
@@ -129,8 +126,6 @@ final class TryCatchBlock extends AbstractFixer implements FixerInterface, White
      * Mostly taken from MethodChainingIndentationFixer.
      *
      * @param int    $index  index of the first token on the line to indent
-     *
-     * @return string
      */
     private function getExpectedIndentAt(Tokens $tokens, int $index): string
     {
@@ -148,7 +143,7 @@ final class TryCatchBlock extends AbstractFixer implements FixerInterface, White
             }
 
             if ($this->currentLineRequiresExtraIndentLevel($tokens, $i, $index)) {
-                return $currentIndent.$indent;
+                return $currentIndent . $indent;
             }
 
             return $currentIndent;
@@ -161,8 +156,6 @@ final class TryCatchBlock extends AbstractFixer implements FixerInterface, White
      * Mostly taken from MethodChainingIndentationFixer.
      *
      * @param int    $index  index of the indentation token
-     *
-     * @return string|null
      */
     private function getIndentAt(Tokens $tokens, int $index): ?string
     {
@@ -187,7 +180,7 @@ final class TryCatchBlock extends AbstractFixer implements FixerInterface, White
         $content = $tokens[$index]->getContent();
 
         if ($tokens[$index]->isWhitespace() && $tokens[$index - 1]->isGivenKind(T_OPEN_TAG)) {
-            $content = $tokens[$index - 1]->getContent().$content;
+            $content = $tokens[$index - 1]->getContent() . $content;
         }
 
         if (Preg::match('/\R/', $content)) {

@@ -6,7 +6,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
 /**
- * Copied from https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/blob/master/tests/Test/Assert/AssertTokensTrait.php
+ * Copied from https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/blob/master/tests/Test/Assert/AssertTokensTrait.php.
  */
 trait AssertTokensTrait
 {

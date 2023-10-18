@@ -2,35 +2,35 @@
 
 namespace drupol\PhpCsFixerConfigsDrupal\Tests;
 
-use PhpCsFixer\Cache\NullCacheManager;
-use PhpCsFixer\Differ\UnifiedDiffer;
-use PhpCsFixer\Error\ErrorsManager;
+use BadMethodCallException;
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\Linter\Linter;
 use PhpCsFixer\PhpunitConstraintIsIdenticalString\Constraint\IsIdenticalString;
-use PhpCsFixer\Runner\Runner;
 use PhpCsFixer\Tokenizer\Tokens;
 use PHPUnit\Framework\TestCase;
+use SplFileInfo;
 
 /**
  * Provides setup methods for Fixer testing.
  */
-abstract class FixerTestCase extends TestCase {
+abstract class FixerTestCase extends TestCase
+{
     use AssertTokensTrait;
 
-    protected function createFixer(): FixerInterface {
-        throw new \BadMethodCallException(sprintf('Method "%s" is not implemented.', __METHOD__));
+    protected function createFixer(): FixerInterface
+    {
+        throw new BadMethodCallException(sprintf('Method "%s" is not implemented.', __METHOD__));
     }
 
     /**
      * Run the Fixer tests.
      */
-    protected function doTest(string $expected, ?string $input = null): void {
+    protected function doTest(string $expected, string $input = null): void
+    {
         if (null === $input) {
             $input = $expected;
         }
 
-        $file = new \SplFileInfo(__FILE__);
+        $file = new SplFileInfo(__FILE__);
         $tokens = Tokens::fromCode($input);
         $this->fixer->fix($file, $tokens);
 

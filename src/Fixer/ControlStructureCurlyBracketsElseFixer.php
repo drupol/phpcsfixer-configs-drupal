@@ -16,7 +16,6 @@ use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Preg;
-use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
@@ -26,7 +25,6 @@ use const T_ELSE;
 use const T_ELSEIF;
 use const T_IF;
 use const T_INLINE_HTML;
-use const T_OBJECT_OPERATOR;
 use const T_OPEN_TAG;
 use const T_WHITESPACE;
 
@@ -102,8 +100,6 @@ final class ControlStructureCurlyBracketsElseFixer extends AbstractFixer impleme
      * Mostly taken from MethodChainingIndentationFixer.
      *
      * @param int    $index  index of the first token on the line to indent
-     *
-     * @return string
      */
     private function getExpectedIndentAt(Tokens $tokens, int $index): string
     {
@@ -121,7 +117,7 @@ final class ControlStructureCurlyBracketsElseFixer extends AbstractFixer impleme
             }
 
             if ($this->currentLineRequiresExtraIndentLevel($tokens, $i, $index)) {
-                return $currentIndent.$indent;
+                return $currentIndent . $indent;
             }
 
             return $currentIndent;
@@ -134,8 +130,6 @@ final class ControlStructureCurlyBracketsElseFixer extends AbstractFixer impleme
      * Mostly taken from MethodChainingIndentationFixer.
      *
      * @param int    $index  index of the indentation token
-     *
-     * @return string|null
      */
     private function getIndentAt(Tokens $tokens, int $index): ?string
     {
@@ -160,7 +154,7 @@ final class ControlStructureCurlyBracketsElseFixer extends AbstractFixer impleme
         $content = $tokens[$index]->getContent();
 
         if ($tokens[$index]->isWhitespace() && $tokens[$index - 1]->isGivenKind(T_OPEN_TAG)) {
-            $content = $tokens[$index - 1]->getContent().$content;
+            $content = $tokens[$index - 1]->getContent() . $content;
         }
 
         if (Preg::match('/\R/', $content)) {
@@ -170,7 +164,7 @@ final class ControlStructureCurlyBracketsElseFixer extends AbstractFixer impleme
         return '';
     }
 
-    protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
             if (!$token->isGivenKind([T_ELSE, T_ELSEIF])) {

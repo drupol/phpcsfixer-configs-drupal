@@ -41,9 +41,6 @@ final class BlankLineBeforeEndOfClass implements FixerInterface, WhitespacesAwar
 
     /**
      * BlankLineAfterStatementFixer constructor.
-     *
-     * @param mixed $indent
-     * @param mixed $lineEnding
      */
     public function __construct($indent, $lineEnding)
     {

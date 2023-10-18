@@ -4,17 +4,18 @@ namespace drupol\PhpCsFixerConfigsDrupal\Tests\Integration;
 
 use drupol\PhpCsFixerConfigsDrupal\Config\Drupal8;
 use drupol\PhpCsFixerConfigsDrupal\Tests\IntegrationTestCase;
-use PhpCsFixer\RuleSet\RuleSet;
 use PhpCsFixer\FixerFactory;
+use PhpCsFixer\RuleSet\RuleSet;
 
 /**
  * @author Kevin Wenger <wenger.kev@gmail.com>
  *
  * @internal
  */
-final class Scenario0Test extends IntegrationTestCase {
-
-    protected function getScenarioPath(): string {
+final class Scenario0Test extends IntegrationTestCase
+{
+    protected function getScenarioPath(): string
+    {
         return __DIR__ . '/fixtures/scenario0';
     }
 

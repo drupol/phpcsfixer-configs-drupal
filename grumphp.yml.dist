@@ -10,7 +10,8 @@ grumphp:
             order: null
 
         # PHP CS Fixer
-        # phpcsfixer: ~
+        phpcsfixer:
+            config: .php-cs-fixer.dist.php
 
         # Composer checks
         composer: ~

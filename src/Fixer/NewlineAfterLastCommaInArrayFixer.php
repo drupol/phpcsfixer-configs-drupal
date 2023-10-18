@@ -40,7 +40,7 @@ use const T_WHITESPACE;
 
 final class NewlineAfterLastCommaInArrayFixer extends AbstractFixer implements FixerInterface, WhitespacesAwareFixerInterface
 {
-    protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         $tokensAnalyzer = new TokensAnalyzer($tokens);
 
@@ -114,7 +114,7 @@ final class NewlineAfterLastCommaInArrayFixer extends AbstractFixer implements F
     /**
      * @param int    $index
      */
-    private function fixArray(Tokens $tokens, $index)
+    private function fixArray(Tokens $tokens, $index): void
     {
         $startIndex = $index;
 
@@ -148,8 +148,6 @@ final class NewlineAfterLastCommaInArrayFixer extends AbstractFixer implements F
      * Mostly taken from MethodChainingIndentationFixer.
      *
      * @param int    $index  index of the indentation token
-     *
-     * @return string|null
      */
     private function getIndentAt(Tokens $tokens, int $index): ?string
     {
@@ -174,7 +172,7 @@ final class NewlineAfterLastCommaInArrayFixer extends AbstractFixer implements F
         $content = $tokens[$index]->getContent();
 
         if ($tokens[$index]->isWhitespace() && $tokens[$index - 1]->isGivenKind(T_OPEN_TAG)) {
-            $content = $tokens[$index - 1]->getContent().$content;
+            $content = $tokens[$index - 1]->getContent() . $content;
         }
 
         if (Preg::match('/\R/', $content)) {

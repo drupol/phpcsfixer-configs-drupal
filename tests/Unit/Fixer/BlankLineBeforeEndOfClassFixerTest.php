@@ -5,6 +5,8 @@ namespace Unit\Fixer;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineBeforeEndOfClass;
 use drupol\PhpCsFixerConfigsDrupal\Tests\FixerTestCase;
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\Tokenizer\Tokens;
+use SplFileInfo;
 
 /**
  * @author Kevin Wenger <wenger.kev@gmail.com>
@@ -37,7 +39,8 @@ final class BlankLineBeforeEndOfClassFixerTest extends FixerTestCase
     public static function provideFixCases(): iterable
     {
         yield [
-            '<?php class Bar { 
+            '<?php class Bar {
+
 }',
             '<?php class Bar { }',
         ];
@@ -46,6 +49,7 @@ final class BlankLineBeforeEndOfClassFixerTest extends FixerTestCase
             '<?php
 
             class Bar {
+
             }',
             '<?php
 
@@ -56,13 +60,37 @@ final class BlankLineBeforeEndOfClassFixerTest extends FixerTestCase
             '<?php
 
             class Bar {
-            public ?string $foo = null;
-            
+              public ?string $foo = null;
+
             }',
             '<?php
 
             class Bar {
-            public ?string $foo = null;
+              public ?string $foo = null;
+            }',
+        ];
+    }
+
+    /**
+     * @dataProvider provideSkippedCases
+     */
+    public function testSkipped(string $input): void
+    {
+        $file = new SplFileInfo(__FILE__);
+        $tokens = Tokens::fromCode($input);
+        $this->fixer->fix($file, $tokens);
+        self::assertFalse($tokens->isChanged());
+    }
+
+    public static function provideSkippedCases(): iterable
+    {
+        yield [
+            '<?php
+
+            class Bar {
+
+                public $id;
+
             }',
         ];
     }

@@ -47,22 +47,45 @@ final class BlankLineBeforeEndOfClass extends AbstractFixer implements FixerInte
             }
 
             $indexOpenCurlyBrace = $tokens->getNextTokenOfKind($index, ['{']);
+            $endCurlyBraceIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $indexOpenCurlyBrace);
 
-            $endCurlyBraceIndex = $tokens->findBlockEnd(
-                Tokens::BLOCK_TYPE_CURLY_BRACE,
-                $indexOpenCurlyBrace
-            );
+            // Count the number of new lines before the closing brace.
+            $newLines = Preg::matchAll('/\R/', $tokens[$endCurlyBraceIndex - 1]->getContent(), $matches);
 
+            // If the previous token is already a new line, then we don't need to add another one.
+            if ($newLines >= 2) {
+                continue;
+            }
+
+            $eol = $this->whitespacesConfig->getLineEnding();
+            $prevToken = $tokens[$endCurlyBraceIndex - 1];
+
+            // Add a new line(s) (without ident) before the ending braces.
+            switch ($newLines) {
+                case 0:
+                    // When the closing brace is on the same line as the open brace, we need to add two new lines.
+                    $tokens[$endCurlyBraceIndex - 1] = new Token([T_WHITESPACE, trim($prevToken->getContent(), $this->whitespacesConfig->getIndent()) . str_repeat($eol, 2)]);
+                    break;
+
+                case 1:
+                default:
+                    $tokens[$endCurlyBraceIndex - 1] = new Token([T_WHITESPACE, trim($prevToken->getContent(), $this->whitespacesConfig->getIndent()) . $eol]);
+            }
+
+            // Get the padding of the opening brace to be replicated on the closing brace.
             $padding = mb_substr(
-                $this->getExpectedIndentAt($tokens, $endCurlyBraceIndex),
+                $this->getExpectedIndentAt($tokens, $indexOpenCurlyBrace),
                 0,
                 -mb_strlen($this->whitespacesConfig->getIndent())
             );
 
-            $this->tokens[$endCurlyBraceIndex] = new Token([
-                T_WHITESPACE,
-                $this->whitespacesConfig->getLineEnding() . $padding . $this->tokens[$endCurlyBraceIndex]->getContent(),
-            ]);
+            // Add the padding to the closing brace.
+            $tokens[$endCurlyBraceIndex] = new Token(
+                [
+                    T_WHITESPACE,
+                   $padding . $this->tokens[$endCurlyBraceIndex]->getContent(),
+                ]
+            );
         }
     }
 

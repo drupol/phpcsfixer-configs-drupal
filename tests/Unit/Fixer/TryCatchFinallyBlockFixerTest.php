@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\Fixer;
+namespace drupol\PhpCsFixerConfigsDrupal\Tests\Unit\Fixer;
 
 use drupol\PhpCsFixerConfigsDrupal\Fixer\TryCatchFinallyBlockFixer;
 use drupol\PhpCsFixerConfigsDrupal\Tests\FixerTestCase;

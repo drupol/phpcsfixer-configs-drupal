@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\Config;
+namespace drupol\PhpCsFixerConfigsDrupal\Tests\Unit\Config;
 
 use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineAfterStartOfClass;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineBeforeEndOfClass;

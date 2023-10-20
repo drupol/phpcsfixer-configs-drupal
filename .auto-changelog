@@ -1,9 +1,0 @@
-{
-  "output": "CHANGELOG.md",
-  "template": "keepachangelog",
-  "unreleased": true,
-  "commitLimit": false,
-  "hideCredit": true,
-  "sortCommits": "date-desc",
-  "breakingPattern": "BREAKING CHANGE: yes"
-}

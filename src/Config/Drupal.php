@@ -13,7 +13,7 @@ use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineAfterStartOfClass;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineBeforeEndOfClass;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\ControlStructureCurlyBracketsElseFixer;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\InlineCommentSpacerFixer;
-use drupol\PhpCsFixerConfigsDrupal\Fixer\TryCatchBlock;
+use drupol\PhpCsFixerConfigsDrupal\Fixer\TryCatchFinallyBlockFixer;
 use drupol\PhpCsFixerConfigsPhp\Config\Php;
 use drupol\PhpCsFixerConfigsPhp\Config\YamlConfig;
 
@@ -43,13 +43,11 @@ final class Drupal extends YamlConfig
 
         $this
             ->registerCustomFixers([
-                new BlankLineAfterStartOfClass($this->getIndent(), $this->getLineEnding()),
-                new BlankLineBeforeEndOfClass($this->getIndent(), $this->getLineEnding()),
-                new ControlStructureCurlyBracketsElseFixer($this->getIndent(), $this->getLineEnding()),
+                new BlankLineAfterStartOfClass(),
+                new BlankLineBeforeEndOfClass(),
+                new ControlStructureCurlyBracketsElseFixer(),
                 new InlineCommentSpacerFixer(),
-                new TryCatchBlock($this->getIndent(), $this->getLineEnding()),
-                // Work in progress
-                //new NewlineAfterLastCommaInArrayFixer($this->getIndent(), $this->getLineEnding()),
+                new TryCatchFinallyBlockFixer(),
             ]);
 
         $this

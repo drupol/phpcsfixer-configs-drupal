@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace drupol\PhpCsFixerConfigsDrupal\Fixer;
 
+use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -16,33 +17,14 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 
 use const T_WHITESPACE;
 
-final class BlankLineAfterStartOfClass implements FixerInterface, WhitespacesAwareFixerInterface
+final class BlankLineAfterStartOfClass extends AbstractFixer implements FixerInterface, WhitespacesAwareFixerInterface
 {
-    /**
-     * @var \PhpCsFixer\WhitespacesFixerConfig
-     */
-    private $whitespacesConfig;
-
-    /**
-     * BlankLineAfterStatementFixer constructor.
-     *
-     * @param mixed $indent
-     * @param mixed $lineEnding
-     */
-    public function __construct($indent, $lineEnding)
-    {
-        $this->setWhitespacesConfig(
-            new WhitespacesFixerConfig($indent, $lineEnding)
-        );
-    }
-
-    public function fix(SplFileInfo $file, Tokens $tokens): void
+    public function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
             if (!$token->isClassy()) {

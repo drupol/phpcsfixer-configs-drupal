@@ -10,16 +10,15 @@ use PhpCsFixer\RuleSet\RuleSet;
 /**
  * @author Kevin Wenger <wenger.kev@gmail.com>
  *
- * @covers \drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineAfterStartOfClass
- * @covers \drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineBeforeEndOfClass
+ * Covers the PHP-CS-Fixer rule compact_nullable_type_declaration
  *
  * @internal
  */
-final class Scenario2Test extends IntegrationTestCase
+final class Scenario4Test extends IntegrationTestCase
 {
     protected function getScenarioPath(): string
     {
-        return __DIR__ . '/fixtures/scenario2';
+        return __DIR__ . '/fixtures/scenario4';
     }
 
     public function testDrupal8Config(): void

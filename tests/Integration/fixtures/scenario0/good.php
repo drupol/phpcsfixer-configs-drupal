@@ -38,6 +38,11 @@ function foo(array $arg) {
     if (in_array($arg, $options, TRUE)) {
     }
 
+    // Cover no_spaces_inside_parenthesis.
+    if ($a) {
+        foo();
+    }
+
     try {
         // do something dangerous
     }
@@ -52,3 +57,11 @@ function foo(array $arg) {
 
     $class = new stdClass();
 }
+
+// Cover compact_nullable_type_declaration.
+function sample(?string $str): ?string {}
+
+// Cover single_space_after_construct (default).
+throw new \Exception();
+// Cover single_space_after_construct (yield_from).
+yield from baz();

@@ -28,6 +28,7 @@ parameters:
             classes_opening_brace: same_line
             control_structures_opening_brace: same_line
             functions_opening_brace: same_line
+        compact_nullable_type_declaration: true
         comment_to_phpdoc: false
         constant_case:
             case: upper
@@ -77,6 +78,7 @@ parameters:
                 - break
                 - case
                 - continue
+                - curly_brace_block
                 - default
                 - extra
                 - parenthesis_brace_block

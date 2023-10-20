@@ -52,3 +52,6 @@ function foo(array $arg) {
 
     $class = new stdClass();
 }
+
+// Cover compact_nullable_type_declaration.
+function sample(?string $str): ?string {}

@@ -57,4 +57,7 @@
 
 }
 
+// Cover compact_nullable_type_declaration.
+function sample(? string $str): ? string {}
+
 ?>

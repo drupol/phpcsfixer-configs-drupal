@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\Fixer;
+namespace drupol\PhpCsFixerConfigsDrupal\Tests\Unit\Fixer;
 
 use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineBeforeEndOfClass;
 use drupol\PhpCsFixerConfigsDrupal\Tests\FixerTestCase;

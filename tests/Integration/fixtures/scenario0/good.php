@@ -38,6 +38,11 @@ function foo(array $arg) {
     if (in_array($arg, $options, TRUE)) {
     }
 
+    // Cover no_spaces_inside_parenthesis.
+    if ($a) {
+        foo();
+    }
+
     try {
         // do something dangerous
     }

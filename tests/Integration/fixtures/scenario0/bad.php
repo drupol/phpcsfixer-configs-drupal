@@ -41,6 +41,11 @@
 
     if (in_array($arg, $options, true)) {}
 
+    // Cover no_spaces_inside_parenthesis.
+    if ( $a ) {
+        foo();
+    }
+
 
     try
     {

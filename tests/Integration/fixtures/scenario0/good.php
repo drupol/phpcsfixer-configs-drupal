@@ -60,3 +60,8 @@ function foo(array $arg) {
 
 // Cover compact_nullable_type_declaration.
 function sample(?string $str): ?string {}
+
+// Cover single_space_after_construct (default).
+throw new \Exception();
+// Cover single_space_after_construct (yield_from).
+yield from baz();

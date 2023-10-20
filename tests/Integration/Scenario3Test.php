@@ -10,16 +10,15 @@ use PhpCsFixer\RuleSet\RuleSet;
 /**
  * @author Kevin Wenger <wenger.kev@gmail.com>
  *
- * @covers \drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineAfterStartOfClass
- * @covers \drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineBeforeEndOfClass
+ * Covers the trait whitespace fixers on Class.
  *
  * @internal
  */
-final class Scenario2Test extends IntegrationTestCase
+final class Scenario3Test extends IntegrationTestCase
 {
     protected function getScenarioPath(): string
     {
-        return __DIR__ . '/fixtures/scenario2';
+        return __DIR__ . '/fixtures/scenario3';
     }
 
     public function testDrupal8Config(): void

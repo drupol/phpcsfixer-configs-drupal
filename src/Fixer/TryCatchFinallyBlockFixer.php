@@ -21,22 +21,49 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 
-use const T_ELSE;
-use const T_ELSEIF;
-use const T_IF;
+use const T_CATCH;
+use const T_FINALLY;
 use const T_INLINE_HTML;
 use const T_OPEN_TAG;
+use const T_TRY;
 use const T_WHITESPACE;
 
 /**
- * Class ControlStructureCurlyBracketsElseFixer.
+ * Class TryCatchFinallyBlockFixer.
  */
-final class ControlStructureCurlyBracketsElseFixer extends AbstractFixer implements FixerInterface, WhitespacesAwareFixerInterface
+final class TryCatchFinallyBlockFixer extends AbstractFixer implements FixerInterface, WhitespacesAwareFixerInterface
 {
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
+    {
+        foreach ($tokens as $index => $token) {
+            if (!$token->isGivenKind([T_CATCH, T_FINALLY])) {
+                continue;
+            }
+
+            $tokens[$index - 1] = new Token(
+                [
+                    T_WHITESPACE,
+                    $this->whitespacesConfig->getLineEnding(), ]
+            );
+
+            $padding = mb_substr(
+                $this->getExpectedIndentAt($tokens, $index),
+                0,
+                -mb_strlen($this->whitespacesConfig->getIndent())
+            );
+
+            $tokens[$index] = new Token(
+                [
+                    T_WHITESPACE,
+                    $padding . $tokens[$index]->getContent(), ]
+            );
+        }
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            'Fix if/else control structure.',
+            'Fix try/catch/finally block structure.',
             [
                 new CodeSample(
                     ''
@@ -47,7 +74,7 @@ final class ControlStructureCurlyBracketsElseFixer extends AbstractFixer impleme
 
     public function getName(): string
     {
-        return 'Drupal/control_structure_braces_else';
+        return 'Drupal/try_catch_block';
     }
 
     public function getPriority(): int
@@ -57,7 +84,7 @@ final class ControlStructureCurlyBracketsElseFixer extends AbstractFixer impleme
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound([T_IF, T_ELSE, T_ELSEIF]);
+        return $tokens->isAnyTokenKindsFound([T_TRY]);
     }
 
     public function isRisky(): bool
@@ -162,56 +189,5 @@ final class ControlStructureCurlyBracketsElseFixer extends AbstractFixer impleme
         }
 
         return '';
-    }
-
-    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
-    {
-        foreach ($tokens as $index => $token) {
-            if (!$token->isGivenKind([T_ELSE, T_ELSEIF])) {
-                continue;
-            }
-
-            // Ignore old style constructions.
-            // if ($something):
-            $next = $tokens->getNextNonWhitespace($index);
-
-            if ($token->isGivenKind([T_ELSE])) {
-                if (':' === $tokens[$next]->getContent()) {
-                    continue;
-                }
-            }
-
-            // Ignore old style constructions.
-            // elseif ($something):
-            if ($token->isGivenKind([T_ELSEIF])) {
-                if ('(' === $tokens[$next]->getContent()) {
-                    $endParenthesis = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $next);
-
-                    $next = $tokens->getNextNonWhitespace($endParenthesis);
-
-                    if (':' === $tokens[$next]->getContent()) {
-                        continue;
-                    }
-                }
-            }
-
-            $tokens[$index - 1] = new Token(
-                [
-                    T_WHITESPACE,
-                    $this->whitespacesConfig->getLineEnding(), ]
-            );
-
-            $padding = mb_substr(
-                $this->getExpectedIndentAt($tokens, $index),
-                0,
-                -mb_strlen($this->whitespacesConfig->getIndent())
-            );
-
-            $tokens[$index] = new Token(
-                [
-                    T_WHITESPACE,
-                    $padding . $tokens[$index]->getContent(), ]
-            );
-        }
     }
 }

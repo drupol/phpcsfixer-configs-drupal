@@ -3,3 +3,7 @@ parameters:
     array_syntax:
       syntax: short
     declare_strict_types: false
+    blank_lines_before_namespace: false
+    curly_braces_position:
+      classes_opening_brace: same_line
+      functions_opening_brace: same_line

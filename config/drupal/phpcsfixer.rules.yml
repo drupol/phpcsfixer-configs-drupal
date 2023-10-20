@@ -106,3 +106,6 @@ parameters:
             identical: false
             less_and_greater: false
             always_move_variable: false
+        trailing_comma_in_multiline:
+            elements:
+                - arrays

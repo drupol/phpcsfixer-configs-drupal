@@ -1,9 +1,19 @@
 <?php
 
-$config = require __DIR__ . '/vendor/drupol/php-conventions/config/php73/php_cs_fixer.config.php';
+$finder = \PhpCsFixer\Finder::create()
+    ->exclude('vendor')
+    ->exclude(['tests/Integration/fixtures'])
+    ->in(__DIR__);
 
-$config
-    ->getFinder()
-    ->exclude(['tests/functional/fixtures', 'tests/_output/fixtures']);
+$config = new \PhpCsFixer\Config();
 
-return $config;
+return $config->setRules([
+        '@Symfony' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'phpdoc_align' => ['align' => 'vertical', 'tags' => ['type', 'var']],
+        'concat_space' => ['spacing' => 'one'],
+        'global_namespace_import' => true,
+    ])
+    ->setFinder($finder)
+
+;

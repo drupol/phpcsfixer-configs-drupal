@@ -65,3 +65,26 @@ function sample(?string $str): ?string {}
 throw new \Exception();
 // Cover single_space_after_construct (yield_from).
 yield from baz();
+
+// Cover spaces_inside_parentheses.
+function foo($bar, $baz) {}
+
+// Cover braces_position for anonymous class.
+$bar = new class() {
+
+    private $baz;
+
+};
+
+// Cover braces_position for empty anonymous class.
+$foo = new class() {
+
+};
+
+// Cover braces_position for single line anonymous function.
+$foo = static function () { return TRUE; };
+
+// Cover braces_position for anonymous function.
+$bar = static function () {
+    return TRUE;
+};

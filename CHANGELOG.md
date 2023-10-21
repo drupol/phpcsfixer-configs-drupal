@@ -25,7 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - replace deprecated no_blank_lines_after_phpdoc:use_trait by class_attributes_separation: true (#8)
 - replace deprecated no_spaces_inside_parenthesis by spaces_inside_parentheses:space:none instead (#8)
 - replace deprecated compact_nullable_typehint by compact_nullable_type_declaration (#8)
-- replace deprecated curly_braces_position by braces_position (#8)
 
 ### Removed
 - remove NewlineAfterLastCommaInArrayFixer now that a similar rule has been included in PHP CS Fixer

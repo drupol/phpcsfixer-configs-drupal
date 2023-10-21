@@ -25,10 +25,15 @@ parameters:
                 - while
                 - yield
         curly_braces_position:
+            allow_single_line_anonymous_functions: true
+            allow_single_line_empty_anonymous_classes: true
             classes_opening_brace: same_line
             control_structures_opening_brace: same_line
             functions_opening_brace: same_line
         compact_nullable_type_declaration: true
+        # Keep compact_nullable_typehint until removed or change on
+        # https://github.com/drupol/phpcsfixer-configs-php
+        compact_nullable_typehint: true
         comment_to_phpdoc: false
         constant_case:
             case: upper

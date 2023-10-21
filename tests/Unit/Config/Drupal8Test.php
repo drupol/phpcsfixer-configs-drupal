@@ -4,7 +4,6 @@ namespace drupol\PhpCsFixerConfigsDrupal\Tests\Unit\Config;
 
 use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineAfterStartOfClass;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineBeforeEndOfClass;
-use drupol\PhpCsFixerConfigsDrupal\Fixer\ControlStructureCurlyBracketsElseFixer;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\InlineCommentSpacerFixer;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\TryCatchFinallyBlockFixer;
 use PHPUnit\Framework\TestCase;
@@ -25,12 +24,11 @@ final class Drupal8Test extends TestCase
 
         self::assertSame('.php-cs-fixer.cache', $config->getCacheFile());
         $fixers = $config->getCustomFixers();
-        self::assertCount(5, $fixers);
+        self::assertCount(4, $fixers);
         self::assertInstanceOf(BlankLineAfterStartOfClass::class, $fixers[0]);
         self::assertInstanceOf(BlankLineBeforeEndOfClass::class, $fixers[1]);
-        self::assertInstanceOf(ControlStructureCurlyBracketsElseFixer::class, $fixers[2]);
-        self::assertInstanceOf(InlineCommentSpacerFixer::class, $fixers[3]);
-        self::assertInstanceOf(TryCatchFinallyBlockFixer::class, $fixers[4]);
+        self::assertInstanceOf(InlineCommentSpacerFixer::class, $fixers[2]);
+        self::assertInstanceOf(TryCatchFinallyBlockFixer::class, $fixers[3]);
 
         self::assertSame('txt', $config->getFormat());
         self::assertFalse($config->getHideProgress());

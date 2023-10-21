@@ -31,6 +31,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - remove NewlineAfterLastCommaInArrayFixer now that a similar rule has been included in PHP CS Fixer
 - remove Fixer ControlStructureCurlyBracketsElseFixerTest now that a similar rule (control_structure_continuation_position:position:next_line) has been included in PHP CS Fixer (#8)
 
+### Security
+- update phpunit/phpunit (9.6.13 => 10.4.1)
+
 ## [2.0.1] - 2021-05-12
 ### Fixed
 - fix removal of inheritdoc

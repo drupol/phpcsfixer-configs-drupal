@@ -13,7 +13,7 @@ use PhpCsFixer\Fixer\FixerInterface;
  *
  * @covers \drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineAfterStartOfClass
  */
-final class BlankLineAfterStartOfClassTest extends FixerTestCase
+final class BlankLineAfterStartOfClassFixerTest extends FixerTestCase
 {
     protected function setUp(): void
     {

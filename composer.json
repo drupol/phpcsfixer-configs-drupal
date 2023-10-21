@@ -24,7 +24,7 @@
         "ext-mbstring": "*",
         "ext-tokenizer": "*",
         "drupol/phpcsfixer-configs-php": "^2.0",
-        "friendsofphp/php-cs-fixer": "^3.35"
+        "friendsofphp/php-cs-fixer": "^3.32"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.31.0",

@@ -1,6 +1,8 @@
 name: code-styles
 on:
   push:
+    branches:
+      - master
   pull_request:
 
 jobs:

@@ -12,6 +12,8 @@ use PhpCsFixer\Fixer\FixerInterface;
  * @internal
  *
  * @covers \drupol\PhpCsFixerConfigsDrupal\Fixer\ControlStructureCurlyBracketsElseFixer
+ *
+ * @deprecated replaced by control_structure_continuation_position:position:next_line
  */
 final class ControlStructureCurlyBracketsElseFixerTest extends FixerTestCase
 {

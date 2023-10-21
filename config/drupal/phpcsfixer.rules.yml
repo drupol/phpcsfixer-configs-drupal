@@ -38,7 +38,6 @@ parameters:
             space: single
         Drupal/blank_line_after_start_of_class: true
         Drupal/blank_line_before_end_of_class: true
-        Drupal/control_structure_braces_else: true
         Drupal/inline_comment_spacer: true
         Drupal/try_catch_block: true
         encoding: true

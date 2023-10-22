@@ -26,7 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - replace deprecated no_blank_lines_after_phpdoc:use_trait by class_attributes_separation: true (#8)
 - replace deprecated no_spaces_inside_parenthesis by spaces_inside_parentheses:space:none instead (#8)
 - replace deprecated compact_nullable_typehint by compact_nullable_type_declaration (#8)
-- raise minimal friendsofphp/php-cs-fixer version from ^3.18 to ^3.32 (#8)
+- raise minimal friendsofphp/php-cs-fixer version from ^3.18 to ^3.35 (#8)
 
 ### Removed
 - remove NewlineAfterLastCommaInArrayFixer now that a similar rule has been included in PHP CS Fixer

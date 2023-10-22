@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         php-versions: ['8.0', '8.1', '8.2']
-        phpcsfixer-version: ['3.32.*', '3.33.*', '3.34.*', '3.35.*', '3.*', '*']
+        phpcsfixer-version: ['3.35.*', '3.*', '*']
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2

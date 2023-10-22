@@ -24,7 +24,7 @@ parameters:
                 - try
                 - while
                 - yield
-        curly_braces_position:
+        braces_position:
             allow_single_line_anonymous_functions: true
             allow_single_line_empty_anonymous_classes: true
             classes_opening_brace: same_line
@@ -41,7 +41,6 @@ parameters:
         Drupal/blank_line_after_start_of_class: true
         Drupal/blank_line_before_end_of_class: true
         Drupal/inline_comment_spacer: true
-        Drupal/try_catch_block: true
         encoding: true
         full_opening_tag: true
         function_declaration:

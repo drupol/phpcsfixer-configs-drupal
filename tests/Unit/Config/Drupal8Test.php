@@ -5,7 +5,6 @@ namespace drupol\PhpCsFixerConfigsDrupal\Tests\Unit\Config;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineAfterStartOfClass;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineBeforeEndOfClass;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\InlineCommentSpacerFixer;
-use drupol\PhpCsFixerConfigsDrupal\Fixer\TryCatchFinallyBlockFixer;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
 
@@ -24,11 +23,10 @@ final class Drupal8Test extends TestCase
 
         self::assertSame('.php-cs-fixer.cache', $config->getCacheFile());
         $fixers = $config->getCustomFixers();
-        self::assertCount(4, $fixers);
+        self::assertCount(3, $fixers);
         self::assertInstanceOf(BlankLineAfterStartOfClass::class, $fixers[0]);
         self::assertInstanceOf(BlankLineBeforeEndOfClass::class, $fixers[1]);
         self::assertInstanceOf(InlineCommentSpacerFixer::class, $fixers[2]);
-        self::assertInstanceOf(TryCatchFinallyBlockFixer::class, $fixers[3]);
 
         self::assertSame('txt', $config->getFormat());
         self::assertFalse($config->getHideProgress());
@@ -45,7 +43,6 @@ final class Drupal8Test extends TestCase
             'Drupal/blank_line_after_start_of_class' => true,
             'Drupal/blank_line_before_end_of_class' => true,
             'Drupal/inline_comment_spacer' => true,
-            'Drupal/try_catch_block' => true,
             'align_multiline_comment' => [
                 'comment_type' => 'all_multiline',
             ],
@@ -82,7 +79,13 @@ final class Drupal8Test extends TestCase
                 ],
             ],
             'blank_lines_before_namespace' => false,
-            'braces_position' => true,
+            'braces_position' => [
+                'allow_single_line_anonymous_functions' => true,
+                'allow_single_line_empty_anonymous_classes' => true,
+                'classes_opening_brace' => 'same_line',
+                'control_structures_opening_brace' => 'same_line',
+                'functions_opening_brace' => 'same_line',
+            ],
             'cast_spaces' => [
                 'space' => 'single',
             ],
@@ -104,13 +107,6 @@ final class Drupal8Test extends TestCase
             'control_structure_braces' => true,
             'control_structure_continuation_position' => [
                 'position' => 'next_line',
-            ],
-            'curly_braces_position' => [
-                'allow_single_line_anonymous_functions' => true,
-                'allow_single_line_empty_anonymous_classes' => true,
-                'classes_opening_brace' => 'same_line',
-                'control_structures_opening_brace' => 'same_line',
-                'functions_opening_brace' => 'same_line',
             ],
             'date_time_immutable' => false,
             'declare_equal_normalize' => [

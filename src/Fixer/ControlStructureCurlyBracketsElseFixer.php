@@ -30,6 +30,8 @@ use const T_WHITESPACE;
 
 /**
  * Class ControlStructureCurlyBracketsElseFixer.
+ *
+ * @deprecated replaced by control_structure_continuation_position:position:next_line
  */
 final class ControlStructureCurlyBracketsElseFixer extends AbstractFixer implements FixerInterface, WhitespacesAwareFixerInterface
 {

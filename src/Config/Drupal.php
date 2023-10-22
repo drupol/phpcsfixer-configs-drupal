@@ -12,7 +12,6 @@ namespace drupol\PhpCsFixerConfigsDrupal\Config;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineAfterStartOfClass;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineBeforeEndOfClass;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\InlineCommentSpacerFixer;
-use drupol\PhpCsFixerConfigsDrupal\Fixer\TryCatchFinallyBlockFixer;
 use drupol\PhpCsFixerConfigsPhp\Config\Php;
 use drupol\PhpCsFixerConfigsPhp\Config\YamlConfig;
 
@@ -45,7 +44,6 @@ final class Drupal extends YamlConfig
                 new BlankLineAfterStartOfClass(),
                 new BlankLineBeforeEndOfClass(),
                 new InlineCommentSpacerFixer(),
-                new TryCatchFinallyBlockFixer(),
             ]);
 
         $this

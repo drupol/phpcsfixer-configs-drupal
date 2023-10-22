@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - refactoring of tests integration using PHPUnit & Github Actions
 - replace deprecated braces configuration by curly_braces_position (#8)
+- replace deprecated curly_braces_position configuration by braces_position (#8)
 - replace braces:position_after_control_structures by control_structure_continuation_position:position (#8)
 - replace deprecated braces by single_space_around_construct (#8)
 - enable class_attributes_separation: true following phpcs (drupal/coder) rules (#8)
@@ -29,10 +30,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 - remove NewlineAfterLastCommaInArrayFixer now that a similar rule has been included in PHP CS Fixer
-- remove Fixer ControlStructureCurlyBracketsElseFixerTest now that a similar rule (control_structure_continuation_position:position:next_line) has been included in PHP CS Fixer (#8)
 
 ### Security
 - update phpunit/phpunit (9.6.13 => 10.4.1)
+
+### Deprecated
+- deprecate Fixer ControlStructureCurlyBracketsElseFixerTest now that a similar rule (control_structure_continuation_position:position:next_line) has been included in PHP CS Fixer (#8)
+- deprecate Fixer TryCatchFinallyBlockFixer now that a similar rule (control_structure_continuation_position:position:next_line) has been included in PHP CS Fixer (#8)
 
 ## [2.0.1] - 2021-05-12
 ### Fixed

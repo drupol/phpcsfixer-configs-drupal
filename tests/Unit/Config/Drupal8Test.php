@@ -82,6 +82,7 @@ final class Drupal8Test extends TestCase
                 ],
             ],
             'blank_lines_before_namespace' => false,
+            'braces_position' => true,
             'cast_spaces' => [
                 'space' => 'single',
             ],
@@ -94,7 +95,6 @@ final class Drupal8Test extends TestCase
             'combine_nested_dirname' => false,
             'comment_to_phpdoc' => false,
             'compact_nullable_type_declaration' => true,
-            'compact_nullable_typehint' => true,
             'concat_space' => [
                 'spacing' => 'one',
             ],
@@ -159,7 +159,6 @@ final class Drupal8Test extends TestCase
                 'closure_function_spacing' => 'one',
             ],
             'function_to_constant' => true,
-            'function_typehint_space' => true,
             'general_phpdoc_annotation_remove' => [
                 'annotations' => [
                     0 => 'package',
@@ -213,8 +212,8 @@ final class Drupal8Test extends TestCase
                 'scope' => 'namespaced',
                 'strict' => true,
             ],
-            'native_function_type_declaration_casing' => true,
-            'new_with_braces' => true,
+            'native_type_declaration_casing' => true,
+            'new_with_parentheses' => true,
             'no_alias_functions' => true,
             'no_alternative_syntax' => false,
             'no_binary_string' => true,
@@ -258,14 +257,12 @@ final class Drupal8Test extends TestCase
                     1 => 'outside',
                 ],
             ],
-            'no_spaces_inside_parenthesis' => true,
             'no_superfluous_elseif' => true,
             'no_superfluous_phpdoc_tags' => [
                 'allow_mixed' => true,
                 'allow_unused_params' => true,
                 'remove_inheritdoc' => false,
             ],
-            'no_trailing_comma_in_list_call' => true,
             'no_trailing_comma_in_singleline' => [
                 'elements' => [
                     0 => 'arguments',
@@ -276,6 +273,7 @@ final class Drupal8Test extends TestCase
             ],
             'no_trailing_whitespace' => true,
             'no_trailing_whitespace_in_comment' => true,
+            'no_unneeded_braces' => true,
             'no_unneeded_control_parentheses' => [
                 'statements' => [
                     0 => 'break',
@@ -287,7 +285,6 @@ final class Drupal8Test extends TestCase
                     6 => 'yield',
                 ],
             ],
-            'no_unneeded_curly_braces' => true,
             'no_unneeded_final_method' => true,
             'no_unreachable_default_argument_value' => true,
             'no_unset_cast' => true,
@@ -455,6 +452,7 @@ final class Drupal8Test extends TestCase
                 ],
             ],
             'trim_array_spaces' => true,
+            'type_declaration_spaces' => true,
             'unary_operator_spaces' => true,
             'visibility_required' => true,
             'void_return' => false,

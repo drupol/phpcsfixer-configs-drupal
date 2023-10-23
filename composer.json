@@ -20,7 +20,7 @@
         }
     ],
     "require": {
-        "php": ">= 7.1.3",
+        "php": ">= 8.0.0",
         "ext-mbstring": "*",
         "ext-tokenizer": "*",
         "drupol/phpcsfixer-configs-php": "^2.0",

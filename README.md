@@ -21,7 +21,7 @@ Available configuration objects:
 ## Requirements
 
 * PHP >= 8.0
-* friendsofphp/php-cs-fixer >= 3.33
+* friendsofphp/php-cs-fixer >= 3.35
 
 ## Installation
 

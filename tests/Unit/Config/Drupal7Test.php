@@ -4,9 +4,7 @@ namespace drupol\PhpCsFixerConfigsDrupal\Tests\Unit\Config;
 
 use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineAfterStartOfClass;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\BlankLineBeforeEndOfClass;
-use drupol\PhpCsFixerConfigsDrupal\Fixer\ControlStructureCurlyBracketsElseFixer;
 use drupol\PhpCsFixerConfigsDrupal\Fixer\InlineCommentSpacerFixer;
-use drupol\PhpCsFixerConfigsDrupal\Fixer\TryCatchFinallyBlockFixer;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
 
@@ -25,12 +23,10 @@ final class Drupal7Test extends TestCase
 
         self::assertSame('.php-cs-fixer.cache', $config->getCacheFile());
         $fixers = $config->getCustomFixers();
-        self::assertCount(5, $fixers);
+        self::assertCount(3, $fixers);
         self::assertInstanceOf(BlankLineAfterStartOfClass::class, $fixers[0]);
         self::assertInstanceOf(BlankLineBeforeEndOfClass::class, $fixers[1]);
-        self::assertInstanceOf(ControlStructureCurlyBracketsElseFixer::class, $fixers[2]);
-        self::assertInstanceOf(InlineCommentSpacerFixer::class, $fixers[3]);
-        self::assertInstanceOf(TryCatchFinallyBlockFixer::class, $fixers[4]);
+        self::assertInstanceOf(InlineCommentSpacerFixer::class, $fixers[2]);
 
         self::assertSame('txt', $config->getFormat());
         self::assertFalse($config->getHideProgress());
@@ -46,9 +42,7 @@ final class Drupal7Test extends TestCase
             '@PhpCsFixer' => true,
             'Drupal/blank_line_after_start_of_class' => true,
             'Drupal/blank_line_before_end_of_class' => true,
-            'Drupal/control_structure_braces_else' => true,
             'Drupal/inline_comment_spacer' => true,
-            'Drupal/try_catch_block' => true,
             'align_multiline_comment' => [
                 'comment_type' => 'all_multiline',
             ],
@@ -85,16 +79,17 @@ final class Drupal7Test extends TestCase
                 ],
             ],
             'blank_lines_before_namespace' => true,
-            'braces' => [
-                'allow_single_line_closure' => true,
-                'position_after_functions_and_oop_constructs' => 'same',
-                'position_after_control_structures' => 'same',
-                'position_after_anonymous_constructs' => 'same',
+            'braces_position' => [
+                'allow_single_line_anonymous_functions' => true,
+                'allow_single_line_empty_anonymous_classes' => true,
+                'classes_opening_brace' => 'same_line',
+                'control_structures_opening_brace' => 'same_line',
+                'functions_opening_brace' => 'same_line',
             ],
             'cast_spaces' => [
                 'space' => 'single',
             ],
-            'class_attributes_separation' => false,
+            'class_attributes_separation' => true,
             'class_definition' => [
                 'multi_line_extends_each_single_line' => true,
             ],
@@ -102,7 +97,7 @@ final class Drupal7Test extends TestCase
             'combine_consecutive_unsets' => true,
             'combine_nested_dirname' => false,
             'comment_to_phpdoc' => false,
-            'compact_nullable_typehint' => true,
+            'compact_nullable_type_declaration' => true,
             'concat_space' => [
                 'spacing' => 'one',
             ],
@@ -111,11 +106,7 @@ final class Drupal7Test extends TestCase
             ],
             'control_structure_braces' => true,
             'control_structure_continuation_position' => [
-                'position' => 'same_line',
-            ],
-            'curly_braces_position' => [
-            'allow_single_line_anonymous_functions' => true,
-                'allow_single_line_empty_anonymous_classes' => true,
+                'position' => 'next_line',
             ],
             'date_time_immutable' => false,
             'declare_equal_normalize' => [
@@ -164,7 +155,6 @@ final class Drupal7Test extends TestCase
                 'closure_function_spacing' => 'one',
             ],
             'function_to_constant' => true,
-            'function_typehint_space' => true,
             'general_phpdoc_annotation_remove' => [
                 'annotations' => [
                     0 => 'package',
@@ -218,8 +208,8 @@ final class Drupal7Test extends TestCase
                 'scope' => 'namespaced',
                 'strict' => true,
             ],
-            'native_function_type_declaration_casing' => true,
-            'new_with_braces' => true,
+            'native_type_declaration_casing' => true,
+            'new_with_parentheses' => true,
             'no_alias_functions' => true,
             'no_alternative_syntax' => false,
             'no_binary_string' => true,
@@ -234,15 +224,15 @@ final class Drupal7Test extends TestCase
                     0 => 'break',
                     1 => 'case',
                     2 => 'continue',
-                    3 => 'default',
-                    4 => 'extra',
-                    5 => 'parenthesis_brace_block',
-                    6 => 'return',
-                    7 => 'square_brace_block',
-                    8 => 'switch',
-                    9 => 'throw',
-                    10 => 'use',
-                    11 => 'use_trait',
+                    3 => 'curly_brace_block',
+                    4 => 'default',
+                    5 => 'extra',
+                    6 => 'parenthesis_brace_block',
+                    7 => 'return',
+                    8 => 'square_brace_block',
+                    9 => 'switch',
+                    10 => 'throw',
+                    11 => 'use',
                 ],
             ],
             'no_homoglyph_names' => true,
@@ -263,14 +253,12 @@ final class Drupal7Test extends TestCase
                     1 => 'outside',
                 ],
             ],
-            'no_spaces_inside_parenthesis' => true,
             'no_superfluous_elseif' => true,
             'no_superfluous_phpdoc_tags' => [
                 'allow_mixed' => true,
                 'allow_unused_params' => true,
                 'remove_inheritdoc' => false,
             ],
-            'no_trailing_comma_in_list_call' => true,
             'no_trailing_comma_in_singleline' => [
                 'elements' => [
                     0 => 'arguments',
@@ -281,6 +269,7 @@ final class Drupal7Test extends TestCase
             ],
             'no_trailing_whitespace' => true,
             'no_trailing_whitespace_in_comment' => true,
+            'no_unneeded_braces' => true,
             'no_unneeded_control_parentheses' => [
                 'statements' => [
                     0 => 'break',
@@ -292,7 +281,6 @@ final class Drupal7Test extends TestCase
                     6 => 'yield',
                 ],
             ],
-            'no_unneeded_curly_braces' => true,
             'no_unneeded_final_method' => true,
             'no_unreachable_default_argument_value' => true,
             'no_unset_cast' => true,
@@ -437,8 +425,12 @@ final class Drupal7Test extends TestCase
             'single_quote' => [
                 'strings_containing_single_quote_chars' => false,
             ],
+            'single_space_around_construct' => true,
             'single_trait_insert_per_statement' => true,
             'space_after_semicolon' => true,
+            'spaces_inside_parentheses' => [
+                'space' => 'none',
+            ],
             'standardize_increment' => true,
             'standardize_not_equals' => true,
             'statement_indentation' => true,
@@ -456,6 +448,7 @@ final class Drupal7Test extends TestCase
                 ],
             ],
             'trim_array_spaces' => true,
+            'type_declaration_spaces' => true,
             'unary_operator_spaces' => true,
             'visibility_required' => true,
             'void_return' => false,

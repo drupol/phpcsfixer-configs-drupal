@@ -13,7 +13,8 @@ use PhpCsFixer\Fixer\FixerInterface;
  *
  * @covers \drupol\PhpCsFixerConfigsDrupal\Fixer\ControlStructureCurlyBracketsElseFixer
  *
- * @deprecated replaced by control_structure_continuation_position:position:next_line
+ * @deprecated in 2.1.0 and is removed from 3.0.0. Instead, use
+ *      control_structure_continuation_position:position:next_line.
  */
 final class ControlStructureCurlyBracketsElseFixerTest extends FixerTestCase
 {

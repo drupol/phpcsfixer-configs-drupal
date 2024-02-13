@@ -32,7 +32,7 @@ final class TryCatchFinallyBlockFixerTest extends FixerTestCase
     /**
      * @dataProvider provideWithTryCatchCases
      */
-    public function testWithTryCatch(string $expected, string $input = null): void
+    public function testWithTryCatch(string $expected, ?string $input = null): void
     {
         $this->doTest($expected, $input);
     }
@@ -73,7 +73,7 @@ final class TryCatchFinallyBlockFixerTest extends FixerTestCase
     /**
      * @dataProvider provideWithFinallyCases
      */
-    public function testWithFinally(string $expected, string $input = null): void
+    public function testWithFinally(string $expected, ?string $input = null): void
     {
         $this->doTest($expected, $input);
     }

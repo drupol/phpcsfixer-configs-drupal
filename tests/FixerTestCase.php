@@ -24,7 +24,7 @@ abstract class FixerTestCase extends TestCase
     /**
      * Run the Fixer tests.
      */
-    protected function doTest(string $expected, string $input = null): void
+    protected function doTest(string $expected, ?string $input = null): void
     {
         if (null === $input) {
             $input = $expected;

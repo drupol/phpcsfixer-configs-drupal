@@ -32,7 +32,7 @@ final class ControlStructureCurlyBracketsElseFixerTest extends FixerTestCase
     /**
      * @dataProvider provideFixCases
      */
-    public function testFix(string $expected, string $input = null): void
+    public function testFix(string $expected, ?string $input = null): void
     {
         $this->doTest($expected, $input);
     }
@@ -121,7 +121,7 @@ else if ($y): bar(); endif;',
     /**
      * @dataProvider provideWithElseCases
      */
-    public function testWithElse(string $expected, string $input = null): void
+    public function testWithElse(string $expected, ?string $input = null): void
     {
         $this->doTest($expected, $input);
     }
@@ -174,7 +174,7 @@ else if ($y): bar(); endif;',
     /**
      * @dataProvider provideWithElseIfCases
      */
-    public function testWithElseIf(string $expected, string $input = null): void
+    public function testWithElseIf(string $expected, ?string $input = null): void
     {
         $this->doTest($expected, $input);
     }

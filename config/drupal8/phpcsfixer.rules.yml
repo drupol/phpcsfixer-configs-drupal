@@ -2,5 +2,6 @@ parameters:
   rules:
     array_syntax:
       syntax: short
-    declare_strict_types: false
+    declare_equal_normalize: true
+    declare_strict_types: true
     blank_lines_before_namespace: false

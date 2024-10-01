@@ -148,7 +148,9 @@ final class Drupal8Test extends TestCase
             'fopen_flag_order' => true,
             'fopen_flags' => true,
             'full_opening_tag' => true,
-            'fully_qualified_strict_types' => true,
+            'fully_qualified_strict_types' => [
+                'leading_backslash_in_global_namespace' => false,
+            ],
             'function_declaration' => [
                 'closure_function_spacing' => 'one',
             ],

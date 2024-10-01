@@ -1,6 +1,6 @@
 # CONTRIBUTING
 
-We're using [Github Actions](https://travis-ci.com) as a continuous integration system.
+We're using [Github Actions](https://github.com/drupol/phpcsfixer-configs-drupal/actions) as a continuous integration system.
  
 For details, see [`workflows`](./.github/workflows). 
 

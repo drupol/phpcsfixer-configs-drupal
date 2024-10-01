@@ -7,3 +7,4 @@ parameters:
     blank_lines_before_namespace: false
     fully_qualified_strict_types:
         leading_backslash_in_global_namespace: false
+        phpdoc_tags: []

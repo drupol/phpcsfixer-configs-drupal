@@ -83,7 +83,7 @@ final class BlankLineBeforeEndOfClass extends AbstractFixer implements FixerInte
             $tokens[$endCurlyBraceIndex] = new Token(
                 [
                     T_WHITESPACE,
-                   $padding . $this->tokens[$endCurlyBraceIndex]->getContent(),
+                    $padding . $this->tokens[$endCurlyBraceIndex]->getContent(),
                 ]
             );
         }

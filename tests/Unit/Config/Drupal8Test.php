@@ -111,7 +111,7 @@ final class Drupal8Test extends TestCase
             'date_time_immutable' => false,
             'declare_equal_normalize' => true,
             'declare_parentheses' => true,
-            'declare_strict_types' => true,
+            'declare_strict_types' => false,
             'dir_constant' => true,
             'doctrine_annotation_array_assignment' => [
                 'operator' => ':',
@@ -139,6 +139,7 @@ final class Drupal8Test extends TestCase
                 'mute_deprecation_error' => true,
                 'noise_remaining_usages' => true,
             ],
+            'escape_implicit_backslashes' => true,
             'explicit_indirect_variable' => false,
             'explicit_string_variable' => true,
             'final_class' => false,
@@ -147,7 +148,9 @@ final class Drupal8Test extends TestCase
             'fopen_flag_order' => true,
             'fopen_flags' => true,
             'full_opening_tag' => true,
-            'fully_qualified_strict_types' => true,
+            'fully_qualified_strict_types' => [
+                'leading_backslash_in_global_namespace' => false,
+            ],
             'function_declaration' => [
                 'closure_function_spacing' => 'one',
             ],
@@ -434,7 +437,6 @@ final class Drupal8Test extends TestCase
             'static_lambda' => true,
             'strict_comparison' => true,
             'strict_param' => true,
-            'string_implicit_backslashes' => true,
             'string_length_to_empty' => true,
             'string_line_ending' => true,
             'switch_case_semicolon_to_colon' => true,

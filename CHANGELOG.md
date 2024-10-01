@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- replace deprecated rule 'escape_implicit_backslashes' by 'string_implicit_backslashes'
+
+### Removed
+- drop support for php-cs-fixer 3.35.x by removing tests on this version
+
+### Added
+- add running tests on PHP 8.3
+- add rule declare_equal_normalize to support declare(strict_types=1) without spaces around equal for Drupal8
 
 ## [2.1.0] - 2023-10-23
 ### Added

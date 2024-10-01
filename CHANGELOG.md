@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - add running tests on PHP 8.3
 - add rule declare_equal_normalize to support declare(strict_types=1) without spaces around equal for Drupal8
+- enable ordered_imports.case_sensitive by default since Drupal Coder (8.3.25) is now enforcing it
 
 ## [2.1.0] - 2023-10-23
 ### Added

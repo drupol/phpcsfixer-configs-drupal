@@ -316,6 +316,7 @@ final class Drupal7Test extends TestCase
                 'sort_algorithm' => 'alpha',
             ],
             'ordered_imports' => [
+                'case_sensitive' => true,
                 'imports_order' => [
                     0 => 'class',
                     1 => 'function',

@@ -150,6 +150,7 @@ final class Drupal8Test extends TestCase
             'full_opening_tag' => true,
             'fully_qualified_strict_types' => [
                 'leading_backslash_in_global_namespace' => false,
+                'phpdoc_tags' => [],
             ],
             'function_declaration' => [
                 'closure_function_spacing' => 'one',

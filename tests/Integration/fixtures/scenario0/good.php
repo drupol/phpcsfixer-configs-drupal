@@ -62,7 +62,7 @@ function foo(array $arg) {
 function sample(?string $str): ?string {}
 
 // Cover single_space_after_construct (default).
-throw new \Exception();
+throw new Exception();
 // Cover single_space_after_construct (yield_from).
 yield from baz();
 

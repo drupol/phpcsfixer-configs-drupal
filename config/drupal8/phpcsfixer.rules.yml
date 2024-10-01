@@ -3,5 +3,5 @@ parameters:
     array_syntax:
       syntax: short
     declare_equal_normalize: true
-    declare_strict_types: true
+    declare_strict_types: false
     blank_lines_before_namespace: false
